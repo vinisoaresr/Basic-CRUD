@@ -1,3 +1,5 @@
+import { MissingParamError } from "../errors"
+import { badRequest } from "../helpers/http-helpers"
 
 export class AddEmployeeController {
   handle (httpRequest): any {
@@ -6,9 +8,7 @@ export class AddEmployeeController {
     const requiredFields = ['firstName', 'lastName', 'email', 'NISNumber']
     for (const field of requiredFields) {
       if (!httpRequest[field]) {
-        return {
-          statusCode: 400
-        }
+        return badRequest(new MissingParamError(httpRequest[field]))
       }
     }
   }
