@@ -14,6 +14,12 @@ export class AddEmployeeController {
       }
     }
 
+    if (!email) {
+      return {
+        statusCode: 400
+      }
+    }
+
   }
 }
 
