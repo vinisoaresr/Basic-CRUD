@@ -40,6 +40,19 @@ describe('AddEmployee Test', () => {
     expect(httpResponse.statusCode).toBe(400)
   })
 
+  test('Should return 400 if no NISNumber is provided', () => {
+    const sut = new AddEmployeeController()
+    const httpRequest = {
+      body: {
+        firstName: 'valid_firstName',
+        lastName: 'valid_firstName',
+        email: 'valid@email.com',
+      }
+    }
+    const httpResponse = sut.handle(httpRequest)
+    expect(httpResponse.statusCode).toBe(400)
+  })
+
 
 
   // - first name (Entre 2 e 30 char)

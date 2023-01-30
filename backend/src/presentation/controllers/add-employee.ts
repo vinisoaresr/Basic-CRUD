@@ -20,6 +20,12 @@ export class AddEmployeeController {
       }
     }
 
+    if (!NISNumber) {
+      return {
+        statusCode: 400
+      }
+    }
+
   }
 }
 
