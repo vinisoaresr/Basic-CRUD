@@ -1,7 +1,8 @@
 import { MissingParamError } from "../errors"
 import { badRequest } from "../helpers/http-helpers"
+import { Controller } from "../protocols/controller"
 
-export class AddEmployeeController {
+export class AddEmployeeController implements Controller {
   handle (httpRequest): any {
     const { firstName, lastName, email, NISNumber } = httpRequest.body
 
