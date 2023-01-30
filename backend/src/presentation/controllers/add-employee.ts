@@ -7,6 +7,13 @@ export class AddEmployeeController {
         statusCode: 400
       }
     }
+
+    if (!lastName) {
+      return {
+        statusCode: 400
+      }
+    }
+
   }
 }
 

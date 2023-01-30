@@ -2,11 +2,24 @@ import { AddEmployeeController } from "./add-employee"
 
 
 describe('AddEmployee Test', () => {
-  test('Should return 400 if no name is provided', () => {
+  test('Should return 400 if no firstName is provided', () => {
     const sut = new AddEmployeeController()
     const httpRequest = {
       body: {
         lastName: 'valid_lastName',
+        email: 'valid@email.com',
+        NISNumber: '12345'
+      }
+    }
+    const httpResponse = sut.handle(httpRequest)
+    expect(httpResponse.statusCode).toBe(400)
+  })
+
+  test('Should return 400 if no LastName is provided', () => {
+    const sut = new AddEmployeeController()
+    const httpRequest = {
+      body: {
+        firstName: 'valid_lastName',
         email: 'valid@email.com',
         NISNumber: '12345'
       }
