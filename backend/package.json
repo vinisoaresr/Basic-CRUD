@@ -2,10 +2,11 @@
   "name": "backend",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "./src/index.js",
   "scripts": {
     "test": "jest --passWithNoTests",
-    "test:staged": "jest --"
+    "test:staged": "npm test --",
+    "test:unit": "npm test -- --watch"
   },
   "keywords": [],
   "author": "",
