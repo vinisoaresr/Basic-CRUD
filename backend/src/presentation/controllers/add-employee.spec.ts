@@ -1,3 +1,4 @@
+import { MissingParamError, ServerError } from "../errors"
 import { AddEmployeeController } from "./add-employee"
 
 describe('AddEmployee Test', () => {
@@ -11,9 +12,9 @@ describe('AddEmployee Test', () => {
       }
     }
     const httpResponse = sut.handle(httpRequest)
+    expect(httpResponse.body).toEqual(new MissingParamError('firstName'))
     expect(httpResponse.statusCode).toBe(400)
   })
-
   test('Should return 400 if no LastName is provided', () => {
     const sut = new AddEmployeeController()
     const httpRequest = {
@@ -24,9 +25,9 @@ describe('AddEmployee Test', () => {
       }
     }
     const httpResponse = sut.handle(httpRequest)
+    expect(httpResponse.body).toEqual(new MissingParamError('lastName'))
     expect(httpResponse.statusCode).toBe(400)
   })
-
   test('Should return 400 if no email is provided', () => {
     const sut = new AddEmployeeController()
     const httpRequest = {
@@ -37,9 +38,9 @@ describe('AddEmployee Test', () => {
       }
     }
     const httpResponse = sut.handle(httpRequest)
+    expect(httpResponse.body).toEqual(new MissingParamError('email'))
     expect(httpResponse.statusCode).toBe(400)
   })
-
   test('Should return 400 if no NISNumber is provided', () => {
     const sut = new AddEmployeeController()
     const httpRequest = {
@@ -50,8 +51,11 @@ describe('AddEmployee Test', () => {
       }
     }
     const httpResponse = sut.handle(httpRequest)
+    expect(httpResponse.body).toEqual(new MissingParamError('NISNumber'))
     expect(httpResponse.statusCode).toBe(400)
   })
+
+
 
 
 
