@@ -1,6 +1,6 @@
 import { AddEmployee } from "../../domain/useCases/addEmployee"
 import { InvalidParamError, MissingParamError } from "../errors"
-import { badRequest, serverError } from "../helpers/http-helpers"
+import { badRequest, serverError, success } from "../helpers/http-helpers"
 import { EmailValidator, HttpResponse } from "../protocols"
 import { Controller } from "../protocols/controller"
 import { TextLengthValidator } from "../protocols/text-length-validator"
@@ -46,6 +46,7 @@ export class AddEmployeeController implements Controller {
         email,
         NISNumber
       })
+      return success(employee)
     } catch (error) {
       return serverError(error)
     }

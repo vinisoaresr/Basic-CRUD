@@ -14,14 +14,8 @@ const makeEmailValidator = (): EmailValidator => {
 }
 const makeAddEmployee = (): AddEmployee => {
   class AddEmployeeSub implements AddEmployee {
-    add (): any {
-      return {
-        id: 'valid_id',
-        firstName: 'valid',
-        lastName: 'valid',
-        email: 'valid',
-        NISNumber: 123
-      }
+    add (values): any {
+      return values
     }
   }
   return new AddEmployeeSub()
@@ -225,7 +219,7 @@ describe('AddEmployee Test', () => {
     expect(httpResponse.statusCode).toBe(500)
     expect(httpResponse).toEqual(serverError(new Error()))
   })
-  test('Should call AddAccount with correct values', async () => {
+  test('Should call addEmployee with correct values', async () => {
     const { sut, addEmployee } = makeSut()
     const addSpy = jest.spyOn(addEmployee, 'add')
     const httpRequest = {
@@ -246,7 +240,7 @@ describe('AddEmployee Test', () => {
     })
     //expect(sut).toBe()
   })
-  test('Should return 500 if AddAccount throws', async () => {
+  test('Should return 500 if addEmployee throws', async () => {
     const { sut, addEmployee } = makeSut()
     jest.spyOn(addEmployee, 'add').mockImplementationOnce(async () => {
       return new Promise((resolve, reject) => reject(new Error()))
@@ -262,6 +256,25 @@ describe('AddEmployee Test', () => {
     const httpResponse = await sut.handle(httpRequest)
     expect(httpResponse.statusCode).toBe(500)
     expect(httpResponse).toEqual(serverError(new Error()))
+  })
+  test('Should return 200 if valid values is provided', async () => {
+    const { sut } = makeSut()
+    const httpRequest = {
+      body: {
+        firstName: 'valid_firstName',
+        lastName: 'valid_lastName',
+        email: 'valid@email.com',
+        NISNumber: '12345'
+      }
+    }
+    const httpResponse = await sut.handle(httpRequest)
+    expect(httpResponse.statusCode).toBe(200)
+    expect(httpResponse.body).toEqual({
+      firstName: 'valid_firstName',
+      lastName: 'valid_lastName',
+      email: 'valid@email.com',
+      NISNumber: '12345'
+    })
   })
 
 
