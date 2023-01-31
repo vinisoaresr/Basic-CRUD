@@ -4,7 +4,7 @@ export interface AddEmployee {
   add: (employee: AddEmployeeModel) => Promise<EmployeeModel>
 }
 
-interface AddEmployeeModel {
+export interface AddEmployeeModel {
   firstName: string
   lastName: string
   email: string
