@@ -249,7 +249,7 @@ describe('AddEmployee Test', () => {
         firstName: 'valid_firstName',
         lastName: 'valid_lastName',
         email: 'valid@email.com',
-        NISNumber: '12345'
+        NISNumber: 12345
       }
     }
     const httpResponse = await sut.handle(httpRequest)
@@ -258,7 +258,7 @@ describe('AddEmployee Test', () => {
       firstName: 'valid_firstName',
       lastName: 'valid_lastName',
       email: 'valid@email.com',
-      NISNumber: '12345'
+      NISNumber: 12345
     })
   })
 

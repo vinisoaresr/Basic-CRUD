@@ -1,7 +1,7 @@
 import { AddEmployee } from "../../domain/useCases/addEmployee"
 import { InvalidParamError, MissingParamError } from "../errors"
 import { badRequest, serverError, success } from "../helpers/http-helpers"
-import { EmailValidator, HttpResponse, NumberValidator, Controller, TextLengthValidator } from "../protocols"
+import { EmailValidator, HttpResponse, NumberValidator, Controller, TextLengthValidator, HttpRequest } from "../protocols"
 
 export class AddEmployeeController implements Controller {
 
@@ -17,7 +17,7 @@ export class AddEmployeeController implements Controller {
     this.addEmployee = addEmployee
   }
 
-  async handle (httpRequest): Promise<HttpResponse> {
+  async handle (httpRequest: HttpRequest): Promise<HttpResponse> {
     try {
       const { firstName, lastName, email, NISNumber } = httpRequest.body
       const requiredFields = ['firstName', 'lastName', 'email', 'NISNumber']
@@ -38,7 +38,7 @@ export class AddEmployeeController implements Controller {
       if (!isValidEmail) {
         return badRequest(new InvalidParamError('email'))
       }
-      const isValidNISNumber = this.numberValidator.isValid(NISNumber)
+      const isValidNISNumber = this.numberValidator.isValid(NISNumber.toString())
       if (!isValidNISNumber) {
         return badRequest(new InvalidParamError('NISNumber'))
       }

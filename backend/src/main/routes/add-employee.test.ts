@@ -22,7 +22,7 @@ describe('Employee Routes', () => {
         firstName: 'valid_name',
         lastName: 'valid_name',
         email: 'valid_email@mail.com',
-        NISNumber: 12345
+        NISNumber: '12345'
       })
       .expect(200)
   })
