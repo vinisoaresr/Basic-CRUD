@@ -1,19 +1,33 @@
-import { randomUUID } from "crypto"
 import { InvalidParamError, MissingParamError, ServerError } from "../errors"
 import { serverError } from "../helpers/http-helpers"
-import { TextLengthValidator } from "../protocols/textLengthValidator"
+import { EmailValidator, TextLengthValidator } from "../protocols"
 import { AddEmployeeController } from "./add-employee"
 
-const makeSut = () => {
-  class firstNameValidatorMock implements TextLengthValidator {
+const makeEmailValidator = (): EmailValidator => {
+  class EmailValidatorStub implements EmailValidator {
+    isValid (email: string): boolean {
+      return true
+    }
+  }
+  return new EmailValidatorStub()
+}
+
+const makeTextValidator = (): TextLengthValidator => {
+  class TextValidatorMock implements TextLengthValidator {
     isValid (text: string, minLength: any, maxLength: any): boolean {
       return true
     }
   }
-  const firstNameValidator = new firstNameValidatorMock()
-  const lastNameValidator = new firstNameValidatorMock()
-  const sut = new AddEmployeeController(firstNameValidator, lastNameValidator)
-  return { sut, firstNameValidator, lastNameValidator }
+  return new TextValidatorMock()
+}
+
+const makeSut = () => {
+
+  const emailValidatorStub = makeEmailValidator()
+  const firstNameValidator = makeTextValidator()
+  const lastNameValidator = makeTextValidator()
+  const sut = new AddEmployeeController(firstNameValidator, lastNameValidator, emailValidatorStub)
+  return { sut, firstNameValidator, lastNameValidator, emailValidatorStub }
 }
 
 describe('AddEmployee Test', () => {
@@ -149,6 +163,52 @@ describe('AddEmployee Test', () => {
     const httpResponse = sut.handle(httpRequest)
     expect(httpResponse).toEqual(serverError(new Error()))
     expect(httpResponse.statusCode).toBe(500)
+  })
+  test('Should return 400 if an invalid email is provided', async () => {
+    const { sut, emailValidatorStub } = makeSut()
+    jest.spyOn(emailValidatorStub, 'isValid').mockReturnValueOnce(false)
+    const httpRequest = {
+      body: {
+        firstName: 'valid_firstName',
+        lastName: 'valid_lastName',
+        email: 'valid@email.com',
+        NISNumber: '12345'
+      }
+    }
+    const httpResponse = await sut.handle(httpRequest)
+    expect(httpResponse.statusCode).toBe(400)
+    expect(httpResponse.body).toEqual(new InvalidParamError('email'))
+  })
+  test('Should call EmailValidator with correct email', async () => {
+    const { sut, emailValidatorStub } = makeSut()
+    const isValidSpy = jest.spyOn(emailValidatorStub, 'isValid')
+    const httpRequest = {
+      body: {
+        firstName: 'valid_firstName',
+        lastName: 'valid_lastName',
+        email: 'valid@email.com',
+        NISNumber: '12345'
+      }
+    }
+    await sut.handle(httpRequest)
+    expect(isValidSpy).toHaveBeenCalledWith(httpRequest.body.email)
+  })
+  test('Should return 500 if EmailValidator throws', async () => {
+    const { sut, emailValidatorStub } = makeSut()
+    jest.spyOn(emailValidatorStub, 'isValid').mockImplementationOnce(() => {
+      throw new Error()
+    })
+    const httpRequest = {
+      body: {
+        firstName: 'valid_firstName',
+        lastName: 'valid_lastName',
+        email: 'valid@email.com',
+        NISNumber: '12345'
+      }
+    }
+    const httpResponse = await sut.handle(httpRequest)
+    expect(httpResponse.statusCode).toBe(500)
+    expect(httpResponse).toEqual(serverError(new Error()))
   })
 
 

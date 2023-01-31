@@ -1,16 +1,19 @@
 import { InvalidParamError, MissingParamError } from "../errors"
 import { badRequest, serverError } from "../helpers/http-helpers"
+import { EmailValidator } from "../protocols"
 import { Controller } from "../protocols/controller"
-import { TextLengthValidator } from "../protocols/textLengthValidator"
+import { TextLengthValidator } from "../protocols/text-length-validator"
 
 export class AddEmployeeController implements Controller {
 
   private readonly firstNameLengthValidator: TextLengthValidator
   private readonly lastNameLengthValidator: TextLengthValidator
+  private readonly emailValidator: EmailValidator
 
-  constructor(firstNameLengthValidator: TextLengthValidator, lastNameLengthValidator: TextLengthValidator) {
+  constructor(firstNameLengthValidator: TextLengthValidator, lastNameLengthValidator: TextLengthValidator, emailValidator: EmailValidator) {
     this.firstNameLengthValidator = firstNameLengthValidator
     this.lastNameLengthValidator = lastNameLengthValidator
+    this.emailValidator = emailValidator
   }
 
   handle (httpRequest): any {
@@ -30,7 +33,10 @@ export class AddEmployeeController implements Controller {
       if (!isValidLastName) {
         return badRequest(new InvalidParamError('lastName'))
       }
-
+      const isValidEmail = this.emailValidator.isValid(email)
+      if (!isValidEmail) {
+        return badRequest(new InvalidParamError('email'))
+      }
     } catch (error) {
       return serverError(error)
     }
