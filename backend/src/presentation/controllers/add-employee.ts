@@ -16,7 +16,7 @@ export class AddEmployeeController implements Controller {
     this.firstNameLengthValidator = firstNameLengthValidator
     this.lastNameLengthValidator = lastNameLengthValidator
     this.emailValidator = emailValidator
-    this.addEmployee = this.addEmployee
+    this.addEmployee = addEmployee
   }
 
   async handle (httpRequest): Promise<HttpResponse> {

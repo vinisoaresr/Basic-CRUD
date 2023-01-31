@@ -15,7 +15,13 @@ const makeEmailValidator = (): EmailValidator => {
 const makeAddEmployee = (): AddEmployee => {
   class AddEmployeeSub implements AddEmployee {
     add (): any {
-      return true
+      return {
+        id: 'valid_id',
+        firstName: 'valid',
+        lastName: 'valid',
+        email: 'valid',
+        NISNumber: 123
+      }
     }
   }
   return new AddEmployeeSub()
@@ -216,6 +222,44 @@ describe('AddEmployee Test', () => {
       }
     }
     const httpResponse = await await sut.handle(httpRequest)
+    expect(httpResponse.statusCode).toBe(500)
+    expect(httpResponse).toEqual(serverError(new Error()))
+  })
+  test('Should call AddAccount with correct values', async () => {
+    const { sut, addEmployee } = makeSut()
+    const addSpy = jest.spyOn(addEmployee, 'add')
+    const httpRequest = {
+      body: {
+        firstName: 'valid_firstName',
+        lastName: 'valid_lastName',
+        email: 'valid@email.com',
+        NISNumber: '12345'
+      }
+    }
+    await sut.handle(httpRequest)
+    expect(addSpy).toHaveBeenCalledTimes(1)
+    expect(addSpy).toHaveBeenCalledWith({
+      firstName: 'valid_firstName',
+      lastName: 'valid_lastName',
+      email: 'valid@email.com',
+      NISNumber: '12345'
+    })
+    //expect(sut).toBe()
+  })
+  test('Should return 500 if AddAccount throws', async () => {
+    const { sut, addEmployee } = makeSut()
+    jest.spyOn(addEmployee, 'add').mockImplementationOnce(async () => {
+      return new Promise((resolve, reject) => reject(new Error()))
+    })
+    const httpRequest = {
+      body: {
+        firstName: 'valid_firstName',
+        lastName: 'valid_lastName',
+        email: 'valid@email.com',
+        NISNumber: '12345'
+      }
+    }
+    const httpResponse = await sut.handle(httpRequest)
     expect(httpResponse.statusCode).toBe(500)
     expect(httpResponse).toEqual(serverError(new Error()))
   })
