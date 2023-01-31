@@ -11,7 +11,7 @@ describe('employee Mongo Repository', () => {
   })
 
   beforeEach(async () => {
-    const employeeCollection = await MongoHelper.getCollection('employees')
+    const employeeCollection = await MongoHelper.getCollection('employee')
     await employeeCollection.deleteMany({})
   })
 
@@ -19,7 +19,7 @@ describe('employee Mongo Repository', () => {
     return new EmployeeMongoRepository()
   }
 
-  test('Should return an employee on success', async () => {
+  test('Should return an employee on success add', async () => {
     const sut = makeSut()
     const employee = await sut.add({
       firstName: 'any_name',
@@ -33,5 +33,8 @@ describe('employee Mongo Repository', () => {
     expect(employee.lastName).toBe('any_name')
     expect(employee.email).toBe('any_mail')
     expect(employee.NISNumber).toBe(12345)
+  })
+  test('Should return an employee on success find', async () => {
+    // todo
   })
 })
