@@ -1,5 +1,5 @@
 
-import { AddEmployeeRepository } from '../../../../data/protocols/addEmployeeRepository'
+import { AddEmployeeRepository } from '../../../../data/protocols/add-employee-repository'
 import { EmployeeModel } from '../../../../domain/models/employee-model'
 import { AddEmployeeModel } from '../../../../domain/useCases/addEmployee'
 import { MongoHelper } from '../helpers/mongo-helper'

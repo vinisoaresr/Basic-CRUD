@@ -1,6 +1,6 @@
 import { EmployeeModel } from "../../domain/models/employee-model";
 import { AddEmployee, AddEmployeeModel } from "../../domain/useCases/addEmployee";
-import { AddEmployeeRepository } from "../protocols/addEmployeeRepository";
+import { AddEmployeeRepository } from "../protocols/add-employee-repository";
 
 export class DbAddEmployeeImpl implements AddEmployee {
 
