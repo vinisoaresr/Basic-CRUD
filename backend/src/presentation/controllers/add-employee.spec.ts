@@ -1,3 +1,4 @@
+import { AddEmployee } from "../../domain/useCases/addEmployee"
 import { InvalidParamError, MissingParamError, ServerError } from "../errors"
 import { serverError } from "../helpers/http-helpers"
 import { EmailValidator, TextLengthValidator } from "../protocols"
@@ -11,6 +12,14 @@ const makeEmailValidator = (): EmailValidator => {
   }
   return new EmailValidatorStub()
 }
+const makeAddEmployee = (): AddEmployee => {
+  class AddEmployeeSub implements AddEmployee {
+    add (): any {
+      return true
+    }
+  }
+  return new AddEmployeeSub()
+}
 
 const makeTextValidator = (): TextLengthValidator => {
   class TextValidatorMock implements TextLengthValidator {
@@ -22,16 +31,16 @@ const makeTextValidator = (): TextLengthValidator => {
 }
 
 const makeSut = () => {
-
+  const addEmployee = makeAddEmployee()
   const emailValidatorStub = makeEmailValidator()
   const firstNameValidator = makeTextValidator()
   const lastNameValidator = makeTextValidator()
-  const sut = new AddEmployeeController(firstNameValidator, lastNameValidator, emailValidatorStub)
-  return { sut, firstNameValidator, lastNameValidator, emailValidatorStub }
+  const sut = new AddEmployeeController(firstNameValidator, lastNameValidator, emailValidatorStub, addEmployee)
+  return { sut, firstNameValidator, lastNameValidator, emailValidatorStub, addEmployee }
 }
 
 describe('AddEmployee Test', () => {
-  test('Should return 400 if no firstName is provided', () => {
+  test('Should return 400 if no firstName is provided', async () => {
     const { sut } = makeSut()
     const httpRequest = {
       body: {
@@ -40,11 +49,11 @@ describe('AddEmployee Test', () => {
         NISNumber: '12345'
       }
     }
-    const httpResponse = sut.handle(httpRequest)
+    const httpResponse = await sut.handle(httpRequest)
     expect(httpResponse.body).toEqual(new MissingParamError('firstName'))
     expect(httpResponse.statusCode).toBe(400)
   })
-  test('Should return 400 if no LastName is provided', () => {
+  test('Should return 400 if no LastName is provided', async () => {
     const { sut } = makeSut()
     const httpRequest = {
       body: {
@@ -53,11 +62,11 @@ describe('AddEmployee Test', () => {
         NISNumber: '12345'
       }
     }
-    const httpResponse = sut.handle(httpRequest)
+    const httpResponse = await sut.handle(httpRequest)
     expect(httpResponse.body).toEqual(new MissingParamError('lastName'))
     expect(httpResponse.statusCode).toBe(400)
   })
-  test('Should return 400 if no email is provided', () => {
+  test('Should return 400 if no email is provided', async () => {
     const { sut, firstNameValidator } = makeSut()
     const httpRequest = {
       body: {
@@ -66,11 +75,11 @@ describe('AddEmployee Test', () => {
         NISNumber: '12345'
       }
     }
-    const httpResponse = sut.handle(httpRequest)
+    const httpResponse = await sut.handle(httpRequest)
     expect(httpResponse.body).toEqual(new MissingParamError('email'))
     expect(httpResponse.statusCode).toBe(400)
   })
-  test('Should return 400 if no NISNumber is provided', () => {
+  test('Should return 400 if no NISNumber is provided', async () => {
     const { sut } = makeSut()
     const httpRequest = {
       body: {
@@ -79,11 +88,11 @@ describe('AddEmployee Test', () => {
         email: 'valid@email.com',
       }
     }
-    const httpResponse = sut.handle(httpRequest)
+    const httpResponse = await sut.handle(httpRequest)
     expect(httpResponse.body).toEqual(new MissingParamError('NISNumber'))
     expect(httpResponse.statusCode).toBe(400)
   })
-  test('Should return 400 if firsName length is less than 2', () => {
+  test('Should return 400 if firsName length is less than 2', async () => {
     const { sut, firstNameValidator } = makeSut()
     const textWithSizeLessThanTwo = '1'
     jest.spyOn(firstNameValidator, 'isValid').mockReturnValueOnce(false)
@@ -95,11 +104,11 @@ describe('AddEmployee Test', () => {
         NISNumber: '12345',
       }
     }
-    const httpResponse = sut.handle(httpRequest)
+    const httpResponse = await sut.handle(httpRequest)
     expect(httpResponse.body).toEqual(new InvalidParamError('firstName'))
     expect(httpResponse.statusCode).toBe(400)
   })
-  test('Should return 400 if firsName length is bigger than 30', () => {
+  test('Should return 400 if firsName length is bigger than 30', async () => {
     const { sut, firstNameValidator } = makeSut()
     const textWithSizeBiggerThanThirty = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'
     jest.spyOn(firstNameValidator, 'isValid').mockReturnValueOnce(false)
@@ -111,11 +120,11 @@ describe('AddEmployee Test', () => {
         NISNumber: '12345',
       }
     }
-    const httpResponse = sut.handle(httpRequest)
+    const httpResponse = await sut.handle(httpRequest)
     expect(httpResponse.body).toEqual(new InvalidParamError('firstName'))
     expect(httpResponse.statusCode).toBe(400)
   })
-  test('Should return 400 if lastName length is less than 2', () => {
+  test('Should return 400 if lastName length is less than 2', async () => {
     const { sut, lastNameValidator } = makeSut()
     const textWithSizeLessThanTwo = '1'
     jest.spyOn(lastNameValidator, 'isValid').mockReturnValueOnce(false)
@@ -127,11 +136,11 @@ describe('AddEmployee Test', () => {
         NISNumber: '12345',
       }
     }
-    const httpResponse = sut.handle(httpRequest)
+    const httpResponse = await sut.handle(httpRequest)
     expect(httpResponse.body).toEqual(new InvalidParamError('lastName'))
     expect(httpResponse.statusCode).toBe(400)
   })
-  test('Should return 400 if lastName length is bigger than 50', () => {
+  test('Should return 400 if lastName length is bigger than 50', async () => {
     const { sut, lastNameValidator } = makeSut()
     const textWithSizeBiggerThanThirty = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'
     jest.spyOn(lastNameValidator, 'isValid').mockReturnValueOnce(false)
@@ -143,11 +152,11 @@ describe('AddEmployee Test', () => {
         NISNumber: '12345',
       }
     }
-    const httpResponse = sut.handle(httpRequest)
+    const httpResponse = await sut.handle(httpRequest)
     expect(httpResponse.body).toEqual(new InvalidParamError('lastName'))
     expect(httpResponse.statusCode).toBe(400)
   })
-  test('Should return 500 if textValidation throws error', () => {
+  test('Should return 500 if textValidation throws error', async () => {
     const { sut, firstNameValidator } = makeSut()
     jest.spyOn(firstNameValidator, 'isValid').mockImplementationOnce(() => {
       throw new Error()
@@ -160,7 +169,7 @@ describe('AddEmployee Test', () => {
         NISNumber: '12345',
       }
     }
-    const httpResponse = sut.handle(httpRequest)
+    const httpResponse = await sut.handle(httpRequest)
     expect(httpResponse).toEqual(serverError(new Error()))
     expect(httpResponse.statusCode).toBe(500)
   })
@@ -175,7 +184,7 @@ describe('AddEmployee Test', () => {
         NISNumber: '12345'
       }
     }
-    const httpResponse = await sut.handle(httpRequest)
+    const httpResponse = await await sut.handle(httpRequest)
     expect(httpResponse.statusCode).toBe(400)
     expect(httpResponse.body).toEqual(new InvalidParamError('email'))
   })
@@ -190,7 +199,7 @@ describe('AddEmployee Test', () => {
         NISNumber: '12345'
       }
     }
-    await sut.handle(httpRequest)
+    await await sut.handle(httpRequest)
     expect(isValidSpy).toHaveBeenCalledWith(httpRequest.body.email)
   })
   test('Should return 500 if EmailValidator throws', async () => {
@@ -206,7 +215,7 @@ describe('AddEmployee Test', () => {
         NISNumber: '12345'
       }
     }
-    const httpResponse = await sut.handle(httpRequest)
+    const httpResponse = await await sut.handle(httpRequest)
     expect(httpResponse.statusCode).toBe(500)
     expect(httpResponse).toEqual(serverError(new Error()))
   })

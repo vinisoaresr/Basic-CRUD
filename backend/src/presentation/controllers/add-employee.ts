@@ -1,6 +1,7 @@
+import { AddEmployee } from "../../domain/useCases/addEmployee"
 import { InvalidParamError, MissingParamError } from "../errors"
 import { badRequest, serverError } from "../helpers/http-helpers"
-import { EmailValidator } from "../protocols"
+import { EmailValidator, HttpResponse } from "../protocols"
 import { Controller } from "../protocols/controller"
 import { TextLengthValidator } from "../protocols/text-length-validator"
 
@@ -9,14 +10,16 @@ export class AddEmployeeController implements Controller {
   private readonly firstNameLengthValidator: TextLengthValidator
   private readonly lastNameLengthValidator: TextLengthValidator
   private readonly emailValidator: EmailValidator
+  private readonly addEmployee: AddEmployee
 
-  constructor(firstNameLengthValidator: TextLengthValidator, lastNameLengthValidator: TextLengthValidator, emailValidator: EmailValidator) {
+  constructor(firstNameLengthValidator: TextLengthValidator, lastNameLengthValidator: TextLengthValidator, emailValidator: EmailValidator, addEmployee: AddEmployee) {
     this.firstNameLengthValidator = firstNameLengthValidator
     this.lastNameLengthValidator = lastNameLengthValidator
     this.emailValidator = emailValidator
+    this.addEmployee = this.addEmployee
   }
 
-  handle (httpRequest): any {
+  async handle (httpRequest): Promise<HttpResponse> {
     try {
       const { firstName, lastName, email, NISNumber } = httpRequest.body
       const requiredFields = ['firstName', 'lastName', 'email', 'NISNumber']
@@ -37,6 +40,12 @@ export class AddEmployeeController implements Controller {
       if (!isValidEmail) {
         return badRequest(new InvalidParamError('email'))
       }
+      const employee = await this.addEmployee.add({
+        firstName,
+        lastName,
+        email,
+        NISNumber
+      })
     } catch (error) {
       return serverError(error)
     }
