@@ -1,5 +1,6 @@
 import { randomUUID } from "crypto"
 import { InvalidParamError, MissingParamError, ServerError } from "../errors"
+import { serverError } from "../helpers/http-helpers"
 import { TextLengthValidator } from "../protocols/textLengthValidator"
 import { AddEmployeeController } from "./add-employee"
 
@@ -100,7 +101,6 @@ describe('AddEmployee Test', () => {
     expect(httpResponse.body).toEqual(new InvalidParamError('firstName'))
     expect(httpResponse.statusCode).toBe(400)
   })
-  // 500 if throws
   test('Should return 400 if lastName length is less than 2', () => {
     const { sut, lastNameValidator } = makeSut()
     const textWithSizeLessThanTwo = '1'
@@ -132,6 +132,23 @@ describe('AddEmployee Test', () => {
     const httpResponse = sut.handle(httpRequest)
     expect(httpResponse.body).toEqual(new InvalidParamError('lastName'))
     expect(httpResponse.statusCode).toBe(400)
+  })
+  test('Should return 500 if textValidation throws error', () => {
+    const { sut, firstNameValidator } = makeSut()
+    jest.spyOn(firstNameValidator, 'isValid').mockImplementationOnce(() => {
+      throw new Error()
+    })
+    const httpRequest = {
+      body: {
+        firstName: 'valid_firstName',
+        lastName: 'valid_lastName',
+        email: 'valid@email.com',
+        NISNumber: '12345',
+      }
+    }
+    const httpResponse = sut.handle(httpRequest)
+    expect(httpResponse).toEqual(serverError(new Error()))
+    expect(httpResponse.statusCode).toBe(500)
   })
 
 
