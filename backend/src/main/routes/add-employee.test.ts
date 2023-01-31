@@ -21,7 +21,7 @@ describe('Employee Routes', () => {
       .send({
         firstName: 'valid_name',
         lastName: 'valid_name',
-        email: 'vali_email@mail.com',
+        email: 'valid_email@mail.com',
         NISNumber: 12345
       })
       .expect(200)
