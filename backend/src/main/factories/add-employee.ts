@@ -12,7 +12,7 @@ export const makeAddEmployeeController = (): Controller => {
   const textValidatorAdapter = new TextValidatorAdapter()
   const addEmployeeRepository = new EmployeeMongoRepository()
   const mongoDbAddEmployee = new DbAddEmployeeImpl(addEmployeeRepository)
-  const addEmployeeController = new AddEmployeeController(textValidatorAdapter, textValidatorAdapter, emailValidator, mongoDbAddEmployee)
+  const addEmployeeController = new AddEmployeeController(textValidatorAdapter, emailValidator, mongoDbAddEmployee)
   return addEmployeeController
   // const LogErrorRepo = new LogErrorMongoRepository()
   // return new LogControllerDecorator(signUpController, LogErrorRepo)

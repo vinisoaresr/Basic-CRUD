@@ -1,7 +1,7 @@
 import { AddEmployee } from "../../domain/useCases/addEmployee"
 import { InvalidParamError, MissingParamError, ServerError } from "../errors"
 import { serverError } from "../helpers/http-helpers"
-import { EmailValidator, TextLengthValidator } from "../protocols"
+import { EmailValidator, NumberValidator, TextLengthValidator } from "../protocols"
 import { AddEmployeeController } from "./add-employee"
 
 const makeEmailValidator = (): EmailValidator => {
@@ -20,7 +20,6 @@ const makeAddEmployee = (): AddEmployee => {
   }
   return new AddEmployeeSub()
 }
-
 const makeTextValidator = (): TextLengthValidator => {
   class TextValidatorMock implements TextLengthValidator {
     isValid (text: string, minLength: any, maxLength: any): boolean {
@@ -29,14 +28,26 @@ const makeTextValidator = (): TextLengthValidator => {
   }
   return new TextValidatorMock()
 }
+const makeNumberValidator = (): NumberValidator => {
+  class NumberValidatorMock implements NumberValidator {
+    isValid (value: any): boolean {
+      return true
+    }
+  }
+  return new NumberValidatorMock()
+}
 
-const makeSut = () => {
+const makeSut = (): any => {
   const addEmployee = makeAddEmployee()
   const emailValidatorStub = makeEmailValidator()
-  const firstNameValidator = makeTextValidator()
-  const lastNameValidator = makeTextValidator()
-  const sut = new AddEmployeeController(firstNameValidator, lastNameValidator, emailValidatorStub, addEmployee)
-  return { sut, firstNameValidator, lastNameValidator, emailValidatorStub, addEmployee }
+  const numberValidator = makeNumberValidator()
+  const textValidator = makeTextValidator()
+  const sut = new AddEmployeeController(
+    textValidator,
+    emailValidatorStub,
+    numberValidator,
+    addEmployee)
+  return { sut, textValidator, emailValidatorStub, numberValidator, addEmployee }
 }
 
 describe('AddEmployee Test', () => {
@@ -67,7 +78,7 @@ describe('AddEmployee Test', () => {
     expect(httpResponse.statusCode).toBe(400)
   })
   test('Should return 400 if no email is provided', async () => {
-    const { sut, firstNameValidator } = makeSut()
+    const { sut, textValidator } = makeSut()
     const httpRequest = {
       body: {
         firstName: 'valid_firstName',
@@ -92,10 +103,9 @@ describe('AddEmployee Test', () => {
     expect(httpResponse.body).toEqual(new MissingParamError('NISNumber'))
     expect(httpResponse.statusCode).toBe(400)
   })
-  // todo: add test if text validation is called with correct values
   test('Should return 500 if textValidation throws error', async () => {
-    const { sut, firstNameValidator } = makeSut()
-    jest.spyOn(firstNameValidator, 'isValid').mockImplementationOnce(() => {
+    const { sut, textValidator } = makeSut()
+    jest.spyOn(textValidator, 'isValid').mockImplementationOnce(() => {
       throw new Error()
     })
     const httpRequest = {
@@ -110,6 +120,44 @@ describe('AddEmployee Test', () => {
     expect(httpResponse).toEqual(serverError(new Error()))
     expect(httpResponse.statusCode).toBe(500)
   })
+  test('Should return 400 if an invalid input text is provided to textLengthValidator', async () => {
+    const { sut, textValidator } = makeSut()
+    let isValidSpy = jest.spyOn(textValidator, 'isValid').mockReturnValueOnce(true).mockReturnValueOnce(false)
+    const httpRequest = {
+      body: {
+        firstName: 'valid_firstName',
+        lastName: 'valid_lastName',
+        email: 'valid@email.com',
+        NISNumber: '12345'
+      }
+    }
+    let httpResponse = await sut.handle(httpRequest)
+    expect(httpResponse.statusCode).toBe(400)
+    expect(httpResponse.body).toEqual(new InvalidParamError('lastName'))
+    expect(isValidSpy).toBeCalledTimes(2)
+    isValidSpy = jest.spyOn(textValidator, 'isValid').mockReturnValueOnce(false)
+    httpResponse = await sut.handle(httpRequest)
+    expect(httpResponse.statusCode).toBe(400)
+    expect(httpResponse.body).toEqual(new InvalidParamError('firstName'))
+    expect(isValidSpy).toBeCalledTimes(3)
+
+  })
+  test('Should call TextLengthValidator with correct value', async () => {
+    const { sut, textValidator } = makeSut()
+    const isValidSpy = jest.spyOn(textValidator, 'isValid')
+    const httpRequest = {
+      body: {
+        firstName: 'valid_firstName',
+        lastName: 'valid_lastName',
+        email: 'valid@email.com',
+        NISNumber: '12345'
+      }
+    }
+    await sut.handle(httpRequest)
+    expect(isValidSpy).toHaveBeenCalledWith(httpRequest.body.firstName, 2, 30)
+    expect(isValidSpy).toHaveBeenCalledWith(httpRequest.body.lastName, 2, 50)
+    expect(isValidSpy).toBeCalledTimes(2)
+  })
   test('Should return 400 if an invalid email is provided', async () => {
     const { sut, emailValidatorStub } = makeSut()
     jest.spyOn(emailValidatorStub, 'isValid').mockReturnValueOnce(false)
@@ -121,7 +169,7 @@ describe('AddEmployee Test', () => {
         NISNumber: '12345'
       }
     }
-    const httpResponse = await await sut.handle(httpRequest)
+    const httpResponse = await sut.handle(httpRequest)
     expect(httpResponse.statusCode).toBe(400)
     expect(httpResponse.body).toEqual(new InvalidParamError('email'))
   })
@@ -136,7 +184,7 @@ describe('AddEmployee Test', () => {
         NISNumber: '12345'
       }
     }
-    await await sut.handle(httpRequest)
+    await sut.handle(httpRequest)
     expect(isValidSpy).toHaveBeenCalledWith(httpRequest.body.email)
   })
   test('Should return 500 if EmailValidator throws', async () => {
@@ -152,7 +200,7 @@ describe('AddEmployee Test', () => {
         NISNumber: '12345'
       }
     }
-    const httpResponse = await await sut.handle(httpRequest)
+    const httpResponse = await sut.handle(httpRequest)
     expect(httpResponse.statusCode).toBe(500)
     expect(httpResponse).toEqual(serverError(new Error()))
   })
@@ -214,11 +262,4 @@ describe('AddEmployee Test', () => {
     })
   })
 
-
-
-
-  // - first name (Entre 2 e 30 char)
-  // - last name (Entre 2 e 50 char)
-  // - e-mail (validate e-mail)
-  // - number do NIS (PIS) (validate if number)
 })
