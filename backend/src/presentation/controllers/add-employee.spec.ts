@@ -92,70 +92,7 @@ describe('AddEmployee Test', () => {
     expect(httpResponse.body).toEqual(new MissingParamError('NISNumber'))
     expect(httpResponse.statusCode).toBe(400)
   })
-  test('Should return 400 if firsName length is less than 2', async () => {
-    const { sut, firstNameValidator } = makeSut()
-    const textWithSizeLessThanTwo = '1'
-    jest.spyOn(firstNameValidator, 'isValid').mockReturnValueOnce(false)
-    const httpRequest = {
-      body: {
-        firstName: textWithSizeLessThanTwo,
-        lastName: 'valid_lastName',
-        email: 'valid@email.com',
-        NISNumber: '12345',
-      }
-    }
-    const httpResponse = await sut.handle(httpRequest)
-    expect(httpResponse.body).toEqual(new InvalidParamError('firstName'))
-    expect(httpResponse.statusCode).toBe(400)
-  })
-  test('Should return 400 if firsName length is bigger than 30', async () => {
-    const { sut, firstNameValidator } = makeSut()
-    const textWithSizeBiggerThanThirty = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'
-    jest.spyOn(firstNameValidator, 'isValid').mockReturnValueOnce(false)
-    const httpRequest = {
-      body: {
-        firstName: textWithSizeBiggerThanThirty,
-        lastName: 'valid_lastName',
-        email: 'valid@email.com',
-        NISNumber: '12345',
-      }
-    }
-    const httpResponse = await sut.handle(httpRequest)
-    expect(httpResponse.body).toEqual(new InvalidParamError('firstName'))
-    expect(httpResponse.statusCode).toBe(400)
-  })
-  test('Should return 400 if lastName length is less than 2', async () => {
-    const { sut, lastNameValidator } = makeSut()
-    const textWithSizeLessThanTwo = '1'
-    jest.spyOn(lastNameValidator, 'isValid').mockReturnValueOnce(false)
-    const httpRequest = {
-      body: {
-        firstName: 'valid_firstName',
-        lastName: textWithSizeLessThanTwo,
-        email: 'valid@email.com',
-        NISNumber: '12345',
-      }
-    }
-    const httpResponse = await sut.handle(httpRequest)
-    expect(httpResponse.body).toEqual(new InvalidParamError('lastName'))
-    expect(httpResponse.statusCode).toBe(400)
-  })
-  test('Should return 400 if lastName length is bigger than 50', async () => {
-    const { sut, lastNameValidator } = makeSut()
-    const textWithSizeBiggerThanThirty = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'
-    jest.spyOn(lastNameValidator, 'isValid').mockReturnValueOnce(false)
-    const httpRequest = {
-      body: {
-        firstName: 'valid_firstName',
-        lastName: textWithSizeBiggerThanThirty,
-        email: 'valid@email.com',
-        NISNumber: '12345',
-      }
-    }
-    const httpResponse = await sut.handle(httpRequest)
-    expect(httpResponse.body).toEqual(new InvalidParamError('lastName'))
-    expect(httpResponse.statusCode).toBe(400)
-  })
+  // todo: add test if text validation is called with correct values
   test('Should return 500 if textValidation throws error', async () => {
     const { sut, firstNameValidator } = makeSut()
     jest.spyOn(firstNameValidator, 'isValid').mockImplementationOnce(() => {

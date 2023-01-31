@@ -1,3 +1,3 @@
 export interface TextLengthValidator {
-  isValid (text: string, minLength, maxLength): boolean
+  isValid (text: string, minLength: number, maxLength: number): boolean
 }
