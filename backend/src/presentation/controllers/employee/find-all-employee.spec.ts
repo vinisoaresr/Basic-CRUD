@@ -1,6 +1,5 @@
 import { type EmployeeModel } from '../../../domain/models/employee-model'
 import { type FindAllEmployee } from '../../../domain/useCases/find-all-employee'
-import { MissingParamError } from '../../errors'
 import { serverError } from '../../helpers/http-helpers'
 import { FindAllEmployeeController } from './find-all-employee'
 

@@ -9,7 +9,7 @@ interface sutTypes {
 }
 
 const makeAddEmployeeRepository = (): AddEmployeeRepository => {
-  class addEmployeeRepositoryStub implements AddEmployeeRepository {
+  class AddEmployeeRepositoryStub implements AddEmployeeRepository {
     async add (account: AddEmployeeModel): Promise<EmployeeModel> {
       const fakeAccount = {
         id: 'valid_id',
@@ -21,7 +21,7 @@ const makeAddEmployeeRepository = (): AddEmployeeRepository => {
       return await new Promise(resolve => { resolve(fakeAccount) })
     }
   }
-  return new addEmployeeRepositoryStub()
+  return new AddEmployeeRepositoryStub()
 }
 
 const makeSut = (): sutTypes => {
