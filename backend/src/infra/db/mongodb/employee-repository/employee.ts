@@ -1,4 +1,5 @@
 
+import { ObjectId } from 'mongodb'
 import { AddEmployeeRepository, findEmployeeByIdRepository } from '../../../../data/protocols'
 import { EmployeeModel } from '../../../../domain/models/employee-model'
 import { AddEmployeeModel } from '../../../../domain/useCases/addEmployee'
@@ -14,7 +15,7 @@ export class EmployeeMongoRepository implements AddEmployeeRepository, findEmplo
 
   async find (id: string): Promise<EmployeeModel> {
     const employeeCollection = await MongoHelper.getCollection('employee')
-    const employee = await employeeCollection.findOne({ _id: id })
+    const employee = await employeeCollection.findOne({ _id: new ObjectId(id) })
     return MongoHelper.mapToEntity(employee)
   }
 }
