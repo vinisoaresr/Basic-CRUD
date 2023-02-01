@@ -2,7 +2,7 @@
 import { ObjectId } from 'mongodb'
 import { AddEmployeeRepository, findEmployeeByIdRepository } from '../../../../data/protocols'
 import { EmployeeModel } from '../../../../domain/models/employee-model'
-import { AddEmployeeModel } from '../../../../domain/useCases/addEmployee'
+import { AddEmployeeModel } from '../../../../domain/useCases/add-employee'
 import { MongoHelper } from '../helpers/mongo-helper'
 
 export class EmployeeMongoRepository implements AddEmployeeRepository, findEmployeeByIdRepository {

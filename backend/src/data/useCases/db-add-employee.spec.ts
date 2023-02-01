@@ -1,5 +1,5 @@
 import { EmployeeModel } from "../../domain/models/employee-model"
-import { AddEmployeeModel } from "../../domain/useCases/addEmployee"
+import { AddEmployeeModel } from "../../domain/useCases/add-employee"
 import { AddEmployeeRepository } from "../protocols/add-employee-repository"
 import { DbAddEmployeeImpl } from "./db-add-employee"
 

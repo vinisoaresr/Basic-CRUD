@@ -1,5 +1,5 @@
 import { EmployeeModel } from "../../../domain/models/employee-model";
-import { FindEmployeeById } from "../../../domain/useCases/findEmployeeById";
+import { FindEmployeeById } from "../../../domain/useCases/find-employee-by-id";
 import { findEmployeeByIdRepository } from "../../protocols/find-employee-by-id-repository";
 
 export class DbFindEmployeeById implements FindEmployeeById {
