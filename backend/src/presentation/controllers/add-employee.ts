@@ -1,16 +1,15 @@
-import { AddEmployee } from "../../domain/useCases/add-employee"
-import { InvalidParamError, MissingParamError } from "../errors"
-import { badRequest, serverError, success } from "../helpers/http-helpers"
-import { EmailValidator, HttpResponse, NumberValidator, Controller, TextLengthValidator, HttpRequest } from "../protocols"
+import { type AddEmployee } from '../../domain/useCases/add-employee'
+import { InvalidParamError, MissingParamError } from '../errors'
+import { badRequest, serverError, success } from '../helpers/http-helpers'
+import { type EmailValidator, type HttpResponse, type NumberValidator, type Controller, type TextLengthValidator, type HttpRequest } from '../protocols'
 
 export class AddEmployeeController implements Controller {
-
   private readonly textLengthValidator: TextLengthValidator
   private readonly emailValidator: EmailValidator
   private readonly numberValidator: NumberValidator
   private readonly addEmployee: AddEmployee
 
-  constructor(textLengthValidator: TextLengthValidator, emailValidator: EmailValidator, numberValidator: NumberValidator, addEmployee: AddEmployee) {
+  constructor (textLengthValidator: TextLengthValidator, emailValidator: EmailValidator, numberValidator: NumberValidator, addEmployee: AddEmployee) {
     this.textLengthValidator = textLengthValidator
     this.emailValidator = emailValidator
     this.numberValidator = numberValidator
@@ -54,4 +53,3 @@ export class AddEmployeeController implements Controller {
     }
   }
 }
-

@@ -1,5 +1,5 @@
 import validator from 'validator'
-import { NumberValidator } from '../../presentation/protocols'
+import { type NumberValidator } from '../../presentation/protocols'
 
 export class NumberValidatorAdapter implements NumberValidator {
   isValid (value: any): boolean {

@@ -1,8 +1,8 @@
 
 import { ObjectId } from 'mongodb'
-import { AddEmployeeRepository, findEmployeeByIdRepository, FindAllEmployeeRepository, DeleteEmployeeByIdRepository } from '../../../../data/protocols'
-import { EmployeeModel } from '../../../../domain/models/employee-model'
-import { AddEmployeeModel } from '../../../../domain/useCases/add-employee'
+import { type AddEmployeeRepository, type findEmployeeByIdRepository, type FindAllEmployeeRepository, type DeleteEmployeeByIdRepository } from '../../../../data/protocols'
+import { type EmployeeModel } from '../../../../domain/models/employee-model'
+import { type AddEmployeeModel } from '../../../../domain/useCases/add-employee'
 import { MongoHelper } from '../helpers/mongo-helper'
 
 export class EmployeeMongoRepository implements AddEmployeeRepository, findEmployeeByIdRepository, FindAllEmployeeRepository, DeleteEmployeeByIdRepository {
@@ -26,7 +26,7 @@ export class EmployeeMongoRepository implements AddEmployeeRepository, findEmplo
     return employees
   }
 
-  async delete (id: string): Promise<Boolean> {
+  async delete (id: string): Promise<boolean> {
     const employeeCollection = await MongoHelper.getCollection('employee')
     const result = await employeeCollection.deleteOne({ _id: new ObjectId(id) })
     return result.acknowledged

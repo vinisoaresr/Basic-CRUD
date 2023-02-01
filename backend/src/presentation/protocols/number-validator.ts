@@ -1,3 +1,3 @@
 export interface NumberValidator {
-  isValid (number: any): boolean
+  isValid: (number: any) => boolean
 }

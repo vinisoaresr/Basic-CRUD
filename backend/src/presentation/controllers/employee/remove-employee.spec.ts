@@ -1,12 +1,11 @@
-import { RemoveEmployee } from "../../../domain/useCases/remove-employee"
-import { MissingParamError } from "../../errors"
-import { serverError } from "../../helpers/http-helpers"
-import { RemoveEmployeeController } from "./remove-employee"
-
+import { type RemoveEmployee } from '../../../domain/useCases/remove-employee'
+import { MissingParamError } from '../../errors'
+import { serverError } from '../../helpers/http-helpers'
+import { RemoveEmployeeController } from './remove-employee'
 
 const makeRemoveEmployee = () => {
   class RemoveEmployeeStub implements RemoveEmployee {
-    async delete (id: string): Promise<Boolean> {
+    async delete (id: string): Promise<boolean> {
       return true
     }
   }
@@ -46,7 +45,7 @@ describe('deleteAll Employee Controller', () => {
   test('Should return 500 if removeEmployeeById throws', async () => {
     const { sut, removeEmployeeById } = makeSut()
     jest.spyOn(removeEmployeeById, 'delete').mockImplementationOnce(async () => {
-      return new Promise((resolve, reject) => reject(new Error()))
+      return await new Promise((resolve, reject) => { reject(new Error()) })
     })
     const httpRequest = {
       params: {

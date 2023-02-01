@@ -1,28 +1,29 @@
-import { EmployeeModel } from "../../../domain/models/employee-model"
-import { FindAllEmployeeRepository } from "../../protocols/find-all-employee-repository"
-import { DbFindAllEmployee } from "./db-find-all-employee"
-import { DbFindEmployeeById } from "./db-find-employee-by-id"
-
+import { type EmployeeModel } from '../../../domain/models/employee-model'
+import { type FindAllEmployeeRepository } from '../../protocols/find-all-employee-repository'
+import { DbFindAllEmployee } from './db-find-all-employee'
+import { DbFindEmployeeById } from './db-find-employee-by-id'
 
 const makeRepository = () => {
   class FindAllEmployeeRepositoryStub implements FindAllEmployeeRepository {
     async findAll (): Promise<EmployeeModel[]> {
-      return new Promise(resolve => resolve([
-        {
-          id: 'valid_id',
-          firstName: 'valid_firstName',
-          lastName: 'valid_lastName',
-          email: 'valid@email.com',
-          NISNumber: 12345
-        },
-        {
-          id: 'valid_other_id',
-          firstName: 'valid_other_firstName',
-          lastName: 'valid_other_lastName',
-          email: 'valid_other@email.com',
-          NISNumber: 12345
-        }
-      ]))
+      return await new Promise(resolve => {
+        resolve([
+          {
+            id: 'valid_id',
+            firstName: 'valid_firstName',
+            lastName: 'valid_lastName',
+            email: 'valid@email.com',
+            NISNumber: 12345
+          },
+          {
+            id: 'valid_other_id',
+            firstName: 'valid_other_firstName',
+            lastName: 'valid_other_lastName',
+            email: 'valid_other@email.com',
+            NISNumber: 12345
+          }
+        ])
+      })
     }
   }
   return new FindAllEmployeeRepositoryStub()
@@ -43,7 +44,7 @@ describe('DbFindEmployeeById UseCase', () => {
   })
   test('Should throw if findAllEmployeeRepositoryStub throws', async () => {
     const { sut, findAllEmployeeRepositoryStub } = makeSut()
-    jest.spyOn(findAllEmployeeRepositoryStub, 'findAll').mockReturnValueOnce(new Promise((resolve, reject) => reject(new Error())))
+    jest.spyOn(findAllEmployeeRepositoryStub, 'findAll').mockReturnValueOnce(new Promise((resolve, reject) => { reject(new Error()) }))
     const promise = sut.find()
     await expect(promise).rejects.toThrow()
   })

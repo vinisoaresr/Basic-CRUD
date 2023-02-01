@@ -1,12 +1,11 @@
-import { FindAllEmployee } from "../../../domain/useCases/find-all-employee";
-import { serverError, success } from "../../helpers/http-helpers";
-import { Controller, HttpRequest, HttpResponse } from "../../protocols";
-
+import { type FindAllEmployee } from '../../../domain/useCases/find-all-employee'
+import { serverError, success } from '../../helpers/http-helpers'
+import { type Controller, type HttpRequest, type HttpResponse } from '../../protocols'
 
 export class FindAllEmployeeController implements Controller {
   private readonly findAllEmployee: FindAllEmployee
 
-  constructor(findAllEmployee: FindAllEmployee) {
+  constructor (findAllEmployee: FindAllEmployee) {
     this.findAllEmployee = findAllEmployee
   }
 
@@ -18,5 +17,4 @@ export class FindAllEmployeeController implements Controller {
       return serverError(error)
     }
   }
-
 }

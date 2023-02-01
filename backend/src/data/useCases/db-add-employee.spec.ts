@@ -1,8 +1,7 @@
-import { EmployeeModel } from "../../domain/models/employee-model"
-import { AddEmployeeModel } from "../../domain/useCases/add-employee"
-import { AddEmployeeRepository } from "../protocols/add-employee-repository"
-import { DbAddEmployeeImpl } from "./db-add-employee"
-
+import { type EmployeeModel } from '../../domain/models/employee-model'
+import { type AddEmployeeModel } from '../../domain/useCases/add-employee'
+import { type AddEmployeeRepository } from '../protocols/add-employee-repository'
+import { DbAddEmployeeImpl } from './db-add-employee'
 
 interface sutTypes {
   sut: DbAddEmployeeImpl
@@ -19,7 +18,7 @@ const makeAddEmployeeRepository = (): AddEmployeeRepository => {
         email: 'valid_email',
         NISNumber: 12345
       }
-      return new Promise(resolve => resolve(fakeAccount))
+      return await new Promise(resolve => { resolve(fakeAccount) })
     }
   }
   return new addEmployeeRepositoryStub()
@@ -51,7 +50,7 @@ describe('DbAddEmployee UseCase', () => {
   })
   test('Should throw if addEmployeeRepository throws', async () => {
     const { sut, addEmployeeRepository } = makeSut()
-    jest.spyOn(addEmployeeRepository, 'add').mockReturnValueOnce(new Promise((resolve, reject) => reject(new Error())))
+    jest.spyOn(addEmployeeRepository, 'add').mockReturnValueOnce(new Promise((resolve, reject) => { reject(new Error()) }))
     const accountData = {
       firstName: 'valid_name',
       lastName: 'valid_name',

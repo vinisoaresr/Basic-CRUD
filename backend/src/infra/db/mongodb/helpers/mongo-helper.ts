@@ -1,4 +1,4 @@
-import { Collection, MongoClient } from 'mongodb'
+import { type Collection, MongoClient } from 'mongodb'
 
 class MongoHelpers {
   private client: MongoClient
@@ -18,7 +18,7 @@ class MongoHelpers {
     if (!this.client) {
       await this.connect(this.URL)
     }
-    return new Promise(resolve => resolve(this.client.db().collection(name)))
+    return await new Promise(resolve => { resolve(this.client.db().collection(name)) })
   }
 
   mapToEntity (object: any): any {

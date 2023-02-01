@@ -1,7 +1,7 @@
 import { DbRemoveEmployeeById } from '../../data/useCases/employee/db-delete-employee-by-id'
 import { EmployeeMongoRepository } from '../../infra/db/mongodb/employee-repository/employee'
 import { RemoveEmployeeController } from '../../presentation/controllers/employee/remove-employee'
-import { Controller } from '../../presentation/protocols'
+import { type Controller } from '../../presentation/protocols'
 
 export const makeDeleteEmployeeController = (): Controller => {
   const removeEmployeeRepo = new EmployeeMongoRepository()

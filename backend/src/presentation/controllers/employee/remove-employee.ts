@@ -1,14 +1,13 @@
-import { RemoveEmployee } from "../../../domain/useCases/remove-employee";
-import { MissingParamError } from "../../errors";
-import { BusinessError } from "../../errors/business.error";
-import { badRequest, serverError, success } from "../../helpers/http-helpers";
-import { Controller, HttpRequest, HttpResponse } from "../../protocols";
-
+import { type RemoveEmployee } from '../../../domain/useCases/remove-employee'
+import { MissingParamError } from '../../errors'
+import { BusinessError } from '../../errors/business.error'
+import { badRequest, serverError, success } from '../../helpers/http-helpers'
+import { type Controller, type HttpRequest, type HttpResponse } from '../../protocols'
 
 export class RemoveEmployeeController implements Controller {
   private readonly removeEmployee: RemoveEmployee
 
-  constructor(removeEmployee: RemoveEmployee) {
+  constructor (removeEmployee: RemoveEmployee) {
     this.removeEmployee = removeEmployee
   }
 
@@ -28,5 +27,4 @@ export class RemoveEmployeeController implements Controller {
       return serverError(error)
     }
   }
-
 }

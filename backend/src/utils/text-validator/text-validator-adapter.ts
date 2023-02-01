@@ -1,5 +1,5 @@
 import validator from 'validator'
-import { TextLengthValidator } from '../../presentation/protocols'
+import { type TextLengthValidator } from '../../presentation/protocols'
 
 export class TextValidatorAdapter implements TextLengthValidator {
   isValid (text: string, minLength: number, maxLength: number): boolean {

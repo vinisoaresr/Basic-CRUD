@@ -1,10 +1,10 @@
-import { DeleteEmployeeByIdRepository } from "../../protocols/delete-employee-repository"
-import { DbRemoveEmployeeById } from "./db-delete-employee-by-id"
+import { type DeleteEmployeeByIdRepository } from '../../protocols/delete-employee-repository'
+import { DbRemoveEmployeeById } from './db-delete-employee-by-id'
 
 const makeRepository = () => {
   class DeleteEmployeeByIdRepoStub implements DeleteEmployeeByIdRepository {
-    async delete (id: string): Promise<Boolean> {
-      return new Promise(resolve => resolve(true))
+    async delete (id: string): Promise<boolean> {
+      return await new Promise(resolve => { resolve(true) })
     }
   }
   return new DeleteEmployeeByIdRepoStub()
@@ -26,11 +26,9 @@ describe('DbDeleteEmployeeById UseCase', () => {
   })
   test('Should throw if deleteEmployeeByIdRepository throws', async () => {
     const { sut, deleteEmployeeByIdRepository } = makeSut()
-    jest.spyOn(deleteEmployeeByIdRepository, 'delete').mockReturnValueOnce(new Promise((resolve, reject) => reject(new Error())))
+    jest.spyOn(deleteEmployeeByIdRepository, 'delete').mockReturnValueOnce(new Promise((resolve, reject) => { reject(new Error()) }))
     const promise = sut.delete('valid_id')
     await expect(promise).rejects.toThrow()
-
-
 
     await expect(promise).rejects.toThrow()
   })

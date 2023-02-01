@@ -1,5 +1,5 @@
-import { EmployeeModel } from "../../domain/models/employee-model";
+import { type EmployeeModel } from '../../domain/models/employee-model'
 
 export interface FindAllEmployeeRepository {
-  findAll (): Promise<EmployeeModel[]>
+  findAll: () => Promise<EmployeeModel[]>
 }

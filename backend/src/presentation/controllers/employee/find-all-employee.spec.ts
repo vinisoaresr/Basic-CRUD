@@ -1,8 +1,8 @@
-import { EmployeeModel } from "../../../domain/models/employee-model"
-import { FindAllEmployee } from "../../../domain/useCases/find-all-employee"
-import { MissingParamError } from "../../errors"
-import { serverError } from "../../helpers/http-helpers"
-import { FindAllEmployeeController } from "./find-all-employee"
+import { type EmployeeModel } from '../../../domain/models/employee-model'
+import { type FindAllEmployee } from '../../../domain/useCases/find-all-employee'
+import { MissingParamError } from '../../errors'
+import { serverError } from '../../helpers/http-helpers'
+import { FindAllEmployeeController } from './find-all-employee'
 
 const makeFindAllEmployeeStub = (): FindAllEmployee => {
   class FindAllEmployeeStub implements FindAllEmployee {
@@ -44,7 +44,7 @@ describe('FindAll Employee Controller', () => {
   test('Should return 500 if findEmployeeById throws', async () => {
     const { sut, findAllEmployeeStub } = makeSut()
     jest.spyOn(findAllEmployeeStub, 'find').mockImplementationOnce(async () => {
-      return new Promise((resolve, reject) => reject(new Error()))
+      return await new Promise((resolve, reject) => { reject(new Error()) })
     })
     const httpResponse = await sut.handle({})
     expect(httpResponse.statusCode).toBe(500)

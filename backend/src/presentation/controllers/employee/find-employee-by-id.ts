@@ -1,13 +1,12 @@
-import { FindEmployeeById } from "../../../domain/useCases/find-employee-by-id";
-import { MissingParamError } from "../../errors";
-import { badRequest, serverError, success } from "../../helpers/http-helpers";
-import { Controller, HttpRequest, HttpResponse } from "../../protocols";
-
+import { type FindEmployeeById } from '../../../domain/useCases/find-employee-by-id'
+import { MissingParamError } from '../../errors'
+import { badRequest, serverError, success } from '../../helpers/http-helpers'
+import { type Controller, type HttpRequest, type HttpResponse } from '../../protocols'
 
 export class FindEmployeeByIdController implements Controller {
   private readonly findEmployee: FindEmployeeById
 
-  constructor(findEmployee: FindEmployeeById) {
+  constructor (findEmployee: FindEmployeeById) {
     this.findEmployee = findEmployee
   }
 
@@ -23,5 +22,4 @@ export class FindEmployeeByIdController implements Controller {
       return serverError(error)
     }
   }
-
 }

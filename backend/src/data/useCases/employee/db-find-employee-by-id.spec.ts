@@ -1,18 +1,19 @@
-import { EmployeeModel } from "../../../domain/models/employee-model"
-import { findEmployeeByIdRepository } from "../../protocols/find-employee-by-id-repository"
-import { DbFindEmployeeById } from "./db-find-employee-by-id"
-
+import { type EmployeeModel } from '../../../domain/models/employee-model'
+import { type findEmployeeByIdRepository } from '../../protocols/find-employee-by-id-repository'
+import { DbFindEmployeeById } from './db-find-employee-by-id'
 
 const makeRepository = () => {
   class FindEmployeeByIdRepoStub implements findEmployeeByIdRepository {
     async find (id: string): Promise<EmployeeModel> {
-      return new Promise(resolve => resolve({
-        id: 'valid_id',
-        firstName: 'valid_firstName',
-        lastName: 'valid_lastName',
-        email: 'valid@email.com',
-        NISNumber: 12345
-      }))
+      return await new Promise(resolve => {
+        resolve({
+          id: 'valid_id',
+          firstName: 'valid_firstName',
+          lastName: 'valid_lastName',
+          email: 'valid@email.com',
+          NISNumber: 12345
+        })
+      })
     }
   }
   return new FindEmployeeByIdRepoStub()
@@ -34,11 +35,9 @@ describe('DbFindEmployeeById UseCase', () => {
   })
   test('Should throw if findEmployeeByIdRepository throws', async () => {
     const { sut, findEmployeeByIdRepository } = makeSut()
-    jest.spyOn(findEmployeeByIdRepository, 'find').mockReturnValueOnce(new Promise((resolve, reject) => reject(new Error())))
+    jest.spyOn(findEmployeeByIdRepository, 'find').mockReturnValueOnce(new Promise((resolve, reject) => { reject(new Error()) }))
     const promise = sut.find('valid_id')
     await expect(promise).rejects.toThrow()
-
-
 
     await expect(promise).rejects.toThrow()
   })

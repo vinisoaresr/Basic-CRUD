@@ -1,5 +1,5 @@
-import { EmployeeModel } from "../../domain/models/employee-model";
+import { type EmployeeModel } from '../../domain/models/employee-model'
 
 export interface findEmployeeByIdRepository {
-  find (id: string): Promise<EmployeeModel>
+  find: (id: string) => Promise<EmployeeModel>
 }

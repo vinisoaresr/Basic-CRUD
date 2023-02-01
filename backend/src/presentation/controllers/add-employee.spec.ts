@@ -1,8 +1,8 @@
-import { AddEmployee } from "../../domain/useCases/add-employee"
-import { InvalidParamError, MissingParamError, ServerError } from "../errors"
-import { serverError } from "../helpers/http-helpers"
-import { EmailValidator, NumberValidator, TextLengthValidator } from "../protocols"
-import { AddEmployeeController } from "./add-employee"
+import { type AddEmployee } from '../../domain/useCases/add-employee'
+import { InvalidParamError, MissingParamError, ServerError } from '../errors'
+import { serverError } from '../helpers/http-helpers'
+import { type EmailValidator, type NumberValidator, type TextLengthValidator } from '../protocols'
+import { AddEmployeeController } from './add-employee'
 
 const makeEmailValidator = (): EmailValidator => {
   class EmailValidatorStub implements EmailValidator {
@@ -96,7 +96,7 @@ describe('AddEmployee Test', () => {
       body: {
         firstName: 'valid_firstName',
         lastName: 'valid_lastName',
-        email: 'valid@email.com',
+        email: 'valid@email.com'
       }
     }
     const httpResponse = await sut.handle(httpRequest)
@@ -113,7 +113,7 @@ describe('AddEmployee Test', () => {
         firstName: 'valid_firstName',
         lastName: 'valid_lastName',
         email: 'valid@email.com',
-        NISNumber: '12345',
+        NISNumber: '12345'
       }
     }
     const httpResponse = await sut.handle(httpRequest)
@@ -140,7 +140,6 @@ describe('AddEmployee Test', () => {
     expect(httpResponse.statusCode).toBe(400)
     expect(httpResponse.body).toEqual(new InvalidParamError('firstName'))
     expect(isValidSpy).toBeCalledTimes(3)
-
   })
   test('Should call TextLengthValidator with correct value', async () => {
     const { sut, textValidator } = makeSut()
@@ -223,12 +222,12 @@ describe('AddEmployee Test', () => {
       email: 'valid@email.com',
       NISNumber: '12345'
     })
-    //expect(sut).toBe()
+    // expect(sut).toBe()
   })
   test('Should return 500 if addEmployee throws', async () => {
     const { sut, addEmployee } = makeSut()
     jest.spyOn(addEmployee, 'add').mockImplementationOnce(async () => {
-      return new Promise((resolve, reject) => reject(new Error()))
+      return await new Promise((resolve, reject) => { reject(new Error()) })
     })
     const httpRequest = {
       body: {
@@ -261,5 +260,4 @@ describe('AddEmployee Test', () => {
       NISNumber: 12345
     })
   })
-
 })
