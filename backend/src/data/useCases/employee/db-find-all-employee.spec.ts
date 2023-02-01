@@ -6,7 +6,7 @@ import { DbFindEmployeeById } from "./db-find-employee-by-id"
 
 const makeRepository = () => {
   class FindAllEmployeeRepositoryStub implements FindAllEmployeeRepository {
-    async find (): Promise<EmployeeModel[]> {
+    async findAll (): Promise<EmployeeModel[]> {
       return new Promise(resolve => resolve([
         {
           id: 'valid_id',
@@ -37,13 +37,13 @@ const makeSut = () => {
 describe('DbFindEmployeeById UseCase', () => {
   test('Should call findAllEmployeeRepositoryStub one times', async () => {
     const { sut, findAllEmployeeRepositoryStub } = makeSut()
-    const findSpy = jest.spyOn(findAllEmployeeRepositoryStub, 'find')
+    const findSpy = jest.spyOn(findAllEmployeeRepositoryStub, 'findAll')
     await sut.find()
     expect(findSpy).toHaveBeenCalledTimes(1)
   })
   test('Should throw if findAllEmployeeRepositoryStub throws', async () => {
     const { sut, findAllEmployeeRepositoryStub } = makeSut()
-    jest.spyOn(findAllEmployeeRepositoryStub, 'find').mockReturnValueOnce(new Promise((resolve, reject) => reject(new Error())))
+    jest.spyOn(findAllEmployeeRepositoryStub, 'findAll').mockReturnValueOnce(new Promise((resolve, reject) => reject(new Error())))
     const promise = sut.find()
     await expect(promise).rejects.toThrow()
   })

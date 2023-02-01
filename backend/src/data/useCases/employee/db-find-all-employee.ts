@@ -11,7 +11,7 @@ export class DbFindAllEmployee implements FindAllEmployee {
 
 
   async find (): Promise<EmployeeModel[]> {
-    const employee = await this.findAllEmployeeRepo.find()
+    const employee = await this.findAllEmployeeRepo.findAll()
     return new Promise(resolve => resolve(employee))
   }
 }

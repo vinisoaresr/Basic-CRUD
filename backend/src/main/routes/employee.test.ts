@@ -30,6 +30,24 @@ describe('Employee Routes', () => {
       .expect(200)
   })
   test('Should return an employee by id on success', async () => {
+    const listInsertedId = []
+    listInsertedId.push(await employeeCollection.insertOne({
+      firstName: 'valid_name',
+      lastName: 'valid_name',
+      email: 'valid_email@mail.com',
+      NISNumber: '12345'
+    }))
+    listInsertedId.push(await employeeCollection.insertOne({
+      firstName: 'valid_name',
+      lastName: 'valid_name',
+      email: 'valid_email@mail.com',
+      NISNumber: '12345'
+    }))
+    await request(app)
+      .get('/api/employee')
+      .expect(200)
+  })
+  test('Should return an employee by id on success', async () => {
     const { insertedId } = await employeeCollection.insertOne({
       firstName: 'valid_name',
       lastName: 'valid_name',
@@ -40,7 +58,7 @@ describe('Employee Routes', () => {
       .get(`/api/employee/${insertedId}`)
       .expect(200)
   })
-  test('Should return an employee by id on success', async () => {
+  test('Should return success on success delete employee', async () => {
     const { insertedId } = await employeeCollection.insertOne({
       firstName: 'valid_name',
       lastName: 'valid_name',

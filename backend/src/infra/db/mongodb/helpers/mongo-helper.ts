@@ -21,8 +21,8 @@ class MongoHelpers {
     return new Promise(resolve => resolve(this.client.db().collection(name)))
   }
 
-  mapToEntity (account: any): any {
-    const { _id, ...collectionWithoutId } = account
+  mapToEntity (object: any): any {
+    const { _id, ...collectionWithoutId } = object
     return Object.assign(
       {},
       collectionWithoutId,
