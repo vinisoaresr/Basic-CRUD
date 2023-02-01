@@ -40,4 +40,15 @@ describe('Employee Routes', () => {
       .get(`/api/employee/${insertedId}`)
       .expect(200)
   })
+  test('Should return an employee by id on success', async () => {
+    const { insertedId } = await employeeCollection.insertOne({
+      firstName: 'valid_name',
+      lastName: 'valid_name',
+      email: 'valid_email@mail.com',
+      NISNumber: '12345'
+    })
+    await request(app)
+      .delete(`/api/employee/${insertedId}`)
+      .expect(200)
+  })
 })

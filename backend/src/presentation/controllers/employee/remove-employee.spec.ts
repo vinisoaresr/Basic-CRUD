@@ -66,6 +66,6 @@ describe('deleteAll Employee Controller', () => {
     }
     const httpResponse = await sut.handle(httpRequest)
     expect(httpResponse.statusCode).toBe(200)
-    expect(httpResponse.body).toEqual(true)
+    expect(httpResponse.body).toEqual({ success: true })
   })
 })

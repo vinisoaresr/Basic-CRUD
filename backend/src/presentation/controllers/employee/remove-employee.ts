@@ -1,6 +1,6 @@
-import { FindEmployeeById } from "../../../domain/useCases/find-employee-by-id";
 import { RemoveEmployee } from "../../../domain/useCases/remove-employee";
 import { MissingParamError } from "../../errors";
+import { BusinessError } from "../../errors/business.error";
 import { badRequest, serverError, success } from "../../helpers/http-helpers";
 import { Controller, HttpRequest, HttpResponse } from "../../protocols";
 
@@ -19,7 +19,11 @@ export class RemoveEmployeeController implements Controller {
         return badRequest(new MissingParamError('id'))
       }
       const removed = await this.removeEmployee.delete(id)
-      return success(removed)
+      if (removed) {
+        return success({ success: removed })
+      } else {
+        return badRequest(new BusinessError('Rejected'))
+      }
     } catch (error) {
       return serverError(error)
     }
