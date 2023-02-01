@@ -1,4 +1,4 @@
-import { AddEmployee } from "../../domain/useCases/addEmployee"
+import { AddEmployee } from "../../domain/useCases/add-employee"
 import { InvalidParamError, MissingParamError } from "../errors"
 import { badRequest, serverError, success } from "../helpers/http-helpers"
 import { EmailValidator, HttpResponse, NumberValidator, Controller, TextLengthValidator, HttpRequest } from "../protocols"

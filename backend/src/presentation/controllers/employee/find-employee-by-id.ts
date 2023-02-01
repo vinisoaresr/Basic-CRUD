@@ -1,4 +1,4 @@
-import { FindEmployeeById } from "../../../domain/useCases/findEmployeeById";
+import { FindEmployeeById } from "../../../domain/useCases/find-employee-by-id";
 import { MissingParamError } from "../../errors";
 import { badRequest, serverError, success } from "../../helpers/http-helpers";
 import { Controller, HttpRequest, HttpResponse } from "../../protocols";

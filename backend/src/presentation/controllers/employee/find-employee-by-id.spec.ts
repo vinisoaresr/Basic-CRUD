@@ -1,5 +1,5 @@
 import { EmployeeModel } from "../../../domain/models/employee-model"
-import { FindEmployeeById } from "../../../domain/useCases/findEmployeeById"
+import { FindEmployeeById } from "../../../domain/useCases/find-employee-by-id"
 import { MissingParamError } from "../../errors"
 import { serverError } from "../../helpers/http-helpers"
 import { FindEmployeeByIdController } from "./find-employee-by-id"
