@@ -37,4 +37,7 @@ describe('employee Mongo Repository', () => {
   test('Should return an employee on success find', async () => {
     // todo
   })
+  test('Should return true on success delete', async () => {
+    // todo
+  })
 })
