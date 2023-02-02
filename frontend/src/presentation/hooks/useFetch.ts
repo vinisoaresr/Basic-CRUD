@@ -1,17 +1,17 @@
 import axios from "axios";
 import { useState, useEffect } from "react";
 
-abstract class fetchMethod {
+export abstract class Method {
   public static get GET (): string { return "GET"; }
   public static get POST (): string { return "POST"; }
 }
 
-function useFetch (path: string, method: fetchMethod, body: any) {
-  const URL = 'localhost:3000' + path;
+function useFetch (path: string, method: string, body: any) {
+  const URL = 'http://localhost:3000' + path;
   const [loading, setLoading] = useState(true);
-  const [value, setValue] = useState();
-  const [error, setError] = useState();
-  const [needRefresh, setNeedRefresh] = useState(false);
+  const [value, setValue] = useState<any>();
+  const [error, setError] = useState<boolean>(false);
+  const [needRefresh, setNeedRefresh] = useState<boolean>(false);
 
   useEffect(() => {
     setNeedRefresh(false);
@@ -19,13 +19,13 @@ function useFetch (path: string, method: fetchMethod, body: any) {
       url: URL,
       method: method ? method : "GET",
       data: body,
-      headers: makeDefaultHeaders(),
+      headers: makeDefaultHeaders()
     })
       .then(async (response) => {
         setValue(response.data);
       })
       .catch((error: Error) => {
-        setError(error);
+        setError(true);
       })
       .finally(() => {
         setLoading(false);
