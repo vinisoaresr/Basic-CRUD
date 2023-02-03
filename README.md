@@ -31,10 +31,8 @@ A Basic CRUD for Employee Registration
 ## TODO:
 - [ ] Move backend test to a specific folder
 - [ ] Ensure 100% tests coverage (now is >70% code coverage)
-- [ ] Adjusts frontend configs/.env API URL
 
 ## License
-
 This project is licensed under the MIT License - see the [LICENSE](https://opensource.org/licenses/MIT) page for details.
 <p align="center">
   <a href="https://opensource.org/licenses/MIT">

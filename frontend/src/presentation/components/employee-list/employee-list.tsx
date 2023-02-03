@@ -1,5 +1,6 @@
 import { BaseSyntheticEvent } from "react";
 import { IoIosCreate, IoIosRemoveCircle } from "react-icons/io";
+import { env } from "../../../env";
 import { EmployeeModel } from "../../pages/home-page";
 import {
   AddEmployeeButton,
@@ -24,7 +25,7 @@ type Props = {
 
 const EmployeeList: React.FC<Props> = ({ employees, callback, openCreateModal, openEditModal }: Props) => {
   const handleCLickDeleteEmployee = (event: BaseSyntheticEvent, id: string) => {
-    fetch(`http://localhost:3000/api/employee/${id}`, {
+    fetch(`${env.API_URL}/api/employee/${id}`, {
       method: "DELETE"
     }).then(callback())
   }

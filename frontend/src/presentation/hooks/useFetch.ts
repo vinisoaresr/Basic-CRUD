@@ -1,5 +1,6 @@
 import axios from "axios";
 import { useState, useEffect } from "react";
+import { env } from "../../env";
 import { EmployeeModel } from "../pages/home-page";
 
 export abstract class Method {
@@ -15,7 +16,7 @@ interface FetchData {
 }
 
 function useFetch (path: string, method: string, body: any): FetchData {
-  const URL = 'http://localhost:3000' + path;
+  const URL = env.API_URL + path;
   const [loading, setLoading] = useState(true);
   const [value, setValue] = useState<any>();
   const [error, setError] = useState<boolean>(false);

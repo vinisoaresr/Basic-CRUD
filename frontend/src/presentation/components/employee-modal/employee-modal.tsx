@@ -1,5 +1,6 @@
 import { BaseSyntheticEvent, SyntheticEvent, useEffect, useState } from "react";
 import { IoIosCloseCircleOutline } from "react-icons/io";
+import { env } from "../../../env";
 import { EmployeeModel } from "../../pages/home-page";
 import Button from "./button/button";
 import { Content, Title, LabelError, Text, Overlay, Row } from "./employee-modal-styles";
@@ -38,7 +39,7 @@ export function EmployeeModal ({ isOpen, employee, callback }: ModalProps) {
   }
 
   function createEmployee (): void {
-    fetch(`http://localhost:3000/api/employee`, {
+    fetch(`${env.API_URL}/api/employee`, {
       method: "POST",
       headers: {
         "content-type": "application/json",
@@ -65,7 +66,7 @@ export function EmployeeModal ({ isOpen, employee, callback }: ModalProps) {
     })
   }
   function editEmployee (id: string): void {
-    fetch(`http://localhost:3000/api/employee/${id}`, {
+    fetch(`${env.API_URL}/api/employee/${id}`, {
       method: "PATCH",
       headers: {
         "content-type": "application/json",
