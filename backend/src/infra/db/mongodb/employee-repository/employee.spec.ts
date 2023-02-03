@@ -37,6 +37,9 @@ describe('employee Mongo Repository', () => {
   test('Should return an employee on success find', async () => {
     // todo
   })
+  test('Should return an employee on success update', async () => {
+    // todo
+  })
   test('Should return an employee on success findAll', async () => {
     // todo
   })

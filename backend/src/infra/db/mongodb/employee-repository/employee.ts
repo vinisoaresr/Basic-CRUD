@@ -1,11 +1,12 @@
 
 import { ObjectId } from 'mongodb'
-import { type AddEmployeeRepository, type findEmployeeByIdRepository, type FindAllEmployeeRepository, type DeleteEmployeeByIdRepository } from '../../../../data/protocols'
+import { type AddEmployeeRepository, type findEmployeeByIdRepository, type FindAllEmployeeRepository, type DeleteEmployeeByIdRepository, CheckEmployeeRepository, EditEmployeeRepository } from '../../../../data/protocols'
 import { type EmployeeModel } from '../../../../domain/models/employee-model'
 import { type AddEmployeeModel } from '../../../../domain/useCases/add-employee'
+import { EditEmployeeModel } from '../../../../domain/useCases/Edit-employee'
 import { MongoHelper } from '../helpers/mongo-helper'
 
-export class EmployeeMongoRepository implements AddEmployeeRepository, findEmployeeByIdRepository, FindAllEmployeeRepository, DeleteEmployeeByIdRepository {
+export class EmployeeMongoRepository implements AddEmployeeRepository, EditEmployeeRepository, findEmployeeByIdRepository, FindAllEmployeeRepository, DeleteEmployeeByIdRepository, CheckEmployeeRepository {
   async add (employeeData: AddEmployeeModel): Promise<EmployeeModel> {
     const employeeCollection = await MongoHelper.getCollection('employee')
     const { insertedId } = await employeeCollection.insertOne(employeeData)
@@ -30,5 +31,30 @@ export class EmployeeMongoRepository implements AddEmployeeRepository, findEmplo
     const employeeCollection = await MongoHelper.getCollection('employee')
     const result = await employeeCollection.deleteOne({ _id: new ObjectId(id) })
     return result.acknowledged
+  }
+
+  async edit (employeeData: EditEmployeeModel): Promise<EmployeeModel> {
+    const employeeCollection = await MongoHelper.getCollection('employee')
+    let employee = await employeeCollection.findOne({ _id: new ObjectId(employeeData.id) })
+    await employeeCollection.findOneAndUpdate(
+      { _id: new ObjectId(employeeData.id) },
+      {
+        firstName: employeeData.firstName,
+        lastName: employeeData.lastName,
+        email: employeeData.email,
+        NISNumber: employeeData.NISNumber
+      })
+    employee = await employeeCollection.findOne(employee._id)
+    return MongoHelper.mapToEntity(employee)
+  }
+
+  async check (id: string): Promise<boolean> {
+    const employeeCollection = await MongoHelper.getCollection('employee')
+    const employee = await employeeCollection.findOne({ _id: new ObjectId(id) })
+    if (employee) {
+      return true
+    } else {
+      return false
+    }
   }
 }
