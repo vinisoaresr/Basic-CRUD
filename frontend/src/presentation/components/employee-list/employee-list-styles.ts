@@ -9,10 +9,6 @@ export const Container = styled.section`
   padding: 15px;
   border-radius: 14px;
 `;
-export const Title = styled.h1`
-  font-size: 20px;
-  color:   ${(props) => props.theme.colors.title};
-`;
 export const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
@@ -34,9 +30,19 @@ export const Row = styled.li`
   border-radius: 8px;
   padding: 16px;
   display: grid;
-  grid-template-columns: 1fr 3fr 3fr 3fr 1fr;
+  grid-template-columns: 2fr 4fr 5fr 2fr 1fr;
   min-height: 32px;
   align-items: flex-end;
+  background-color:   ${(props) => props.theme.colors["bg-color"][20]};
+  `;
+export const Header = styled.div`
+  width: 100%;
+  border-radius: 8px;
+  padding: 16px;
+  display: grid;
+  grid-template-columns: 1fr 4fr 6fr 2fr 1fr 1fr;
+  min-height: 32px;
+  align-items: center;
   background-color:   ${(props) => props.theme.colors["bg-color"][20]};
 `;
 export const WrapperIcon = styled.div`
@@ -69,6 +75,18 @@ export const AddEmployeeButton = styled.button`
 export const Text = styled.h2`
   text-align: left;
   font-size: 16px;
+  font-weight: 500;
+  color: ${(props) => props.theme.colors.text};
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+`;
+export const Title = styled.h2`
+  display: flex;
+  justify-content: center;
+  text-align: left;
+  font-size: 16px;
+  font-weight: 900;
   color: ${(props) => props.theme.colors.text};
   overflow: hidden;
   text-overflow: ellipsis;

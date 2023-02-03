@@ -5,8 +5,10 @@ import {
   AddEmployeeButton,
   Container,
   Divider,
+  Header,
   Row,
   Text,
+  Title,
   Wrapper,
   WrapperIcon,
   WrapperRow
@@ -29,6 +31,7 @@ const EmployeeList: React.FC<Props> = ({ employees, callback, openCreateModal, o
   return (
     <Container>
       <Wrapper>
+        <HeaderEmployeeList />
         {employees.map((employee, index) => {
           return (
             <WrapperRow key={employee.id}>
@@ -49,13 +52,27 @@ const EmployeeList: React.FC<Props> = ({ employees, callback, openCreateModal, o
           );
         })}
         <AddEmployeeButton onClick={event => openCreateModal(true)}>
-          <Text>
+          <Title>
             Add New Employee
-          </Text>
+          </Title>
         </AddEmployeeButton>
       </Wrapper>
     </Container>
   );
 }
+
+
+const HeaderEmployeeList: React.FC = () => {
+  return <Header>
+    <Title>Order</Title>
+    <Title>Name</Title>
+    <Title>Email</Title>
+    <Title>NIS number</Title>
+  </Header>
+
+}
+
+
+
 
 export default EmployeeList;

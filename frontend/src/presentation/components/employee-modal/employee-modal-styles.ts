@@ -20,7 +20,13 @@ export const Row = styled.div`
   align-items: center;
   justify-content: space-between;
   > svg {
-    color: red;
+    font-size: 24px;
+    color: ${(props) => props.theme.colors.red[20]};
+    text-decoration: none;
+    :hover {
+      color: ${(props) => props.theme.colors.red[10]};
+      cursor: pointer;
+    }
   }
   `;
 export const Content = styled.div`
