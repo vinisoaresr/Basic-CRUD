@@ -1,4 +1,4 @@
-import { type EmployeeModel } from '../models/employee-model'
+import { EmployeeModel } from '../models/employee-model'
 
 export interface EditEmployee {
   edit: (employee: EditEmployeeModel) => Promise<EmployeeModel>

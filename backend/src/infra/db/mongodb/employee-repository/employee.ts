@@ -1,10 +1,10 @@
+import { ObjectId } from "mongodb"
+import { AddEmployeeRepository, EditEmployeeRepository, findEmployeeByIdRepository, FindAllEmployeeRepository, DeleteEmployeeByIdRepository, CheckEmployeeRepository } from "../../../../data/protocols"
+import { EmployeeModel } from "../../../../domain/models/employee-model"
+import { AddEmployeeModel } from "../../../../domain/useCases/add-employee"
+import { EditEmployeeModel } from "../../../../domain/useCases/Edit-employee"
+import { MongoHelper } from "../helpers/mongo-helper"
 
-import { ObjectId } from 'mongodb'
-import { type AddEmployeeRepository, type findEmployeeByIdRepository, type FindAllEmployeeRepository, type DeleteEmployeeByIdRepository, CheckEmployeeRepository, EditEmployeeRepository } from '../../../../data/protocols'
-import { type EmployeeModel } from '../../../../domain/models/employee-model'
-import { type AddEmployeeModel } from '../../../../domain/useCases/add-employee'
-import { EditEmployeeModel } from '../../../../domain/useCases/Edit-employee'
-import { MongoHelper } from '../helpers/mongo-helper'
 
 export class EmployeeMongoRepository implements AddEmployeeRepository, EditEmployeeRepository, findEmployeeByIdRepository, FindAllEmployeeRepository, DeleteEmployeeByIdRepository, CheckEmployeeRepository {
   async add (employeeData: AddEmployeeModel): Promise<EmployeeModel> {

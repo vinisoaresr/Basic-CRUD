@@ -1,8 +1,7 @@
-import { EmployeeModel } from '../../../domain/models/employee-model'
-import { EditEmployee, EditEmployeeModel } from '../../../domain/useCases/Edit-employee'
-import { BusinessError } from '../../../presentation/errors/business.error'
-import { EditEmployeeRepository } from '../../protocols'
-import { CheckEmployeeRepository } from '../../protocols/check-employee-repository'
+import { EmployeeModel } from "../../../domain/models/employee-model"
+import { EditEmployee, EditEmployeeModel } from "../../../domain/useCases/Edit-employee"
+import { BusinessError } from "../../../presentation/errors/business.error"
+import { EditEmployeeRepository, CheckEmployeeRepository } from "../../protocols"
 
 export class DbEditEmployeeImpl implements EditEmployee {
   private readonly repository: EditEmployeeRepository

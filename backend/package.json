@@ -4,6 +4,7 @@
   "description": "",
   "main": "./src/index.js",
   "scripts": {
+    "build": "tsc",
     "start": "sucrase-node src/main/server.ts",
     "test": "jest --passWithNoTests",
     "test:staged": "npm test --",

@@ -1,8 +1,8 @@
-import { EmployeeModel } from '../../../domain/models/employee-model'
-import { EditEmployeeModel } from '../../../domain/useCases/Edit-employee'
-import { CheckEmployeeRepository } from '../../protocols/check-employee-repository'
-import { EditEmployeeRepository } from '../../protocols/Edit-employee-repository'
-import { DbEditEmployeeImpl } from './db-edit-employee'
+import { EmployeeModel } from "../../../domain/models/employee-model"
+import { EditEmployeeModel } from "../../../domain/useCases/Edit-employee"
+import { EditEmployeeRepository, CheckEmployeeRepository } from "../../protocols"
+import { DbEditEmployeeImpl } from "./db-edit-employee"
+
 
 interface sutTypes {
   sut: DbEditEmployeeImpl
