@@ -1,12 +1,20 @@
 import axios from "axios";
 import { useState, useEffect } from "react";
+import { EmployeeModel } from "../pages/home-page";
 
 export abstract class Method {
   public static get GET (): string { return "GET"; }
   public static get POST (): string { return "POST"; }
 }
 
-function useFetch (path: string, method: string, body: any) {
+interface FetchData {
+  value: EmployeeModel[]
+  loading: boolean
+  error: boolean
+  setNeedRefresh: Function
+}
+
+function useFetch (path: string, method: string, body: any): FetchData {
   const URL = 'http://localhost:3000' + path;
   const [loading, setLoading] = useState(true);
   const [value, setValue] = useState<any>();

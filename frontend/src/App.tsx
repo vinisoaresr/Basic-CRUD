@@ -1,11 +1,16 @@
-import HomePage from './presentation/pages/index'
+import { ThemeProvider } from 'styled-components'
+import HomePage from './presentation/pages/home-page'
 import GlobalStyle from './styles/global'
+
+import theme from "./styles/theme-light";
 
 function App (): any {
   return (
     <>
-      <GlobalStyle />
-      <HomePage></HomePage>
+      <ThemeProvider theme={theme}>
+        <GlobalStyle />
+        <HomePage />
+      </ThemeProvider>
     </>
   )
 }

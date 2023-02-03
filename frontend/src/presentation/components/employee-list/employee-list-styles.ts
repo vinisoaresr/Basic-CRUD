@@ -1,66 +1,79 @@
 import styled from "styled-components";
 
 export const Container = styled.section`
-  background-color: black;
+  background-color:   ${(props) => props.theme.colors["bg-color"][10]};
   height: 100%;
+  width: 100%;
+  max-width: 720px;
   overflow: hidden;
   padding: 15px;
-  a {
-    font-size: 12px;
-    color: white;
-    text-decoration: none;
-    :hover {
-      color:  red;
-      cursor: not-allowed;
-    }
-  }
+  border-radius: 14px;
 `;
 export const Title = styled.h1`
   font-size: 20px;
-  color: white;
+  color:   ${(props) => props.theme.colors.title};
+`;
+export const Wrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 `;
 export const WrapperRow = styled.ol`
   padding-bottom: 15px;
   height: 100%;
+  width: 100%;
   overflow-y: scroll;
-`;
-export const Row = styled.li`
-  display: grid;
-  grid-template-columns: 1fr 1fr 6fr 2fr;
-  min-height: 32px;
-  align-items: center;
-  justify-items: start;
-  border-bottom: solid 1px blue;
-  background-color: gray;
-`;
-export const TextOrder = styled.h1`
+  padding: 8px;
+  border-radius: 8px;
   display: flex;
+  flex-direction: column;
+  align-items: center;
+  `;
+export const Row = styled.li`
+  width: 100%;
+  border-radius: 8px;
+  padding: 16px;
+  display: grid;
+  grid-template-columns: 1fr 3fr 3fr 3fr 1fr;
+  min-height: 32px;
+  align-items: flex-end;
+  background-color:   ${(props) => props.theme.colors["bg-color"][20]};
+`;
+export const WrapperIcon = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+  > svg {
+    font-size: 18px;
+    color: ${(props) => props.theme.colors.red[20]};
+    text-decoration: none;
+    :hover {
+      color: ${(props) => props.theme.colors.red[10]};
+      cursor: pointer;
+    }
+  }
+`;
+export const AddEmployeeButton = styled.button`
+  width: 50%;
+  border-radius: 8px;
+  padding: 16px;
+  min-height: 32px;
+  display:flex;
+  align-items: center;
   justify-content: center;
   align-items: center;
-  font-size: 18px;
-  width: 24px;
-  color: white;
+	border: none;
+	cursor: pointer;
+  background-color:${(props) => props.theme.colors.green};
 `;
-export const WrapperName = styled.div`
-  flex-direction: column;
-  padding: 5px;
-  max-width: 100%;
-  overflow: hidden;
-`;
-export const Name = styled.h2`
+export const Text = styled.h2`
   text-align: left;
   font-size: 16px;
-  color: white;
+  color: ${(props) => props.theme.colors.text};
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
 `;
-export const Score = styled.p`
-  width: 100%;
-  font-size: 16px;
-  text-align: center;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  color: white;
+export const Divider = styled.div`
+  margin-bottom: 2px;
 `;

@@ -1,36 +1,60 @@
-import { IoIosRemoveCircle } from "react-icons/io";
+import { BaseSyntheticEvent, SyntheticEvent } from "react";
+import { IoIosCreate, IoIosMedkit, IoIosRemoveCircle } from "react-icons/io";
 
-import { EmployeeModel } from "../../pages";
+import { EmployeeModel } from "../../pages/home-page";
 import {
+  AddEmployeeButton,
   Container,
-  Title,
+  Divider,
   Row,
-  WrapperName,
-  Name,
-  Score,
-  TextOrder,
+  Text,
+  Wrapper,
+  WrapperIcon,
   WrapperRow
 } from "./employee-list-styles";
 
 type Props = {
   employees: EmployeeModel[]
+  callback: Function
+  openCreateModal: Function
+  openEditModal: Function
 }
 
-const EmployeeList: React.FC<Props> = ({ employees }: Props) => {
+
+const EmployeeList: React.FC<Props> = ({ employees, callback, openCreateModal, openEditModal }: Props) => {
+  const handleCLickDeleteEmployee = (event: BaseSyntheticEvent, id: string) => {
+    fetch(`http://localhost:3000/api/employee/${id}`, {
+      method: "DELETE"
+    }).then(callback())
+  }
   return (
     <Container>
-      <Title>Funcionários</Title>
-      <WrapperRow>
+      <Wrapper>
         {employees.map((employee, index) => {
           return (
-            <Row key={index}>
-              <TextOrder> {index} </TextOrder>
-              <Name>{employee.firstName + ' ' + employee.lastName}</Name>
-              <IoIosRemoveCircle />
-            </Row>
+            <WrapperRow key={employee.id}>
+              <Row>
+                <Text> {index} </Text>
+                <Text>{employee.firstName + ' ' + employee.lastName}</Text>
+                <Text>{employee.email}</Text>
+                <Text>{employee.NISNumber}</Text>
+                <WrapperIcon>
+                  <IoIosCreate onClick={(event) => {
+                    openEditModal(employee)
+                  }} />
+                  <IoIosRemoveCircle onClick={(event) => handleCLickDeleteEmployee(event, employee.id)} />
+                </WrapperIcon>
+              </Row>
+              <Divider />
+            </WrapperRow>
           );
         })}
-      </WrapperRow>
+        <AddEmployeeButton onClick={event => openCreateModal(true)}>
+          <Text>
+            Add New Employee
+          </Text>
+        </AddEmployeeButton>
+      </Wrapper>
     </Container>
   );
 }

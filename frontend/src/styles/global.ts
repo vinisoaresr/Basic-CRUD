@@ -24,7 +24,7 @@ const GlobalStyle = createGlobalStyle`
   body {
     height: 100vh;
     width: 100vw;
-    background-color: blacks;
+    background-color: black;
     color: white;
     font-family: sans-serif;
     font-size: 14px;
