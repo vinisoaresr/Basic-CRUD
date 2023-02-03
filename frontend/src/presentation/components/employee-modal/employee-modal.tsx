@@ -65,7 +65,7 @@ export function EmployeeModal ({ isOpen, employee, callback }: ModalProps) {
     })
   }
   function editEmployee (id: string): void {
-    fetch(`http://localhost:3000/api/employee`, {
+    fetch(`http://localhost:3000/api/employee/${id}`, {
       method: "PATCH",
       headers: {
         "content-type": "application/json",
