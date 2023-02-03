@@ -1,6 +1,7 @@
 # Basic-CRUD
 A Basic CRUD for Employee Registration
 
+<img src="./.github/home-page.jpeg" width="50%" height="50%" alt="app demo">
 <img src="./.github/modal-employee.jpeg" width="50%" height="50%" alt="app demo">
 
 
@@ -31,8 +32,6 @@ A Basic CRUD for Employee Registration
 - [ ] Move backend test to a specific folder
 - [ ] Ensure 100% tests coverage (now is >70% code coverage)
 - [ ] Adjusts frontend configs/.env API URL
-- [ ] Fix close modal button size
-- [ ] Add header to list employee
 
 ## License
 
