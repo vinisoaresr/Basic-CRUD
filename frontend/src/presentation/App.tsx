@@ -1,8 +1,8 @@
 import { ThemeProvider } from 'styled-components'
-import HomePage from './presentation/pages/home-page'
-import GlobalStyle from './styles/global'
+import HomePage from './pages/home-page'
+import GlobalStyle from '../styles/global'
 
-import theme from "./styles/theme-light";
+import theme from "../styles/theme-light";
 
 function App (): any {
   return (

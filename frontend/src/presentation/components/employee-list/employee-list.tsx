@@ -1,6 +1,6 @@
 import { BaseSyntheticEvent } from "react";
 import { IoIosCreate, IoIosRemoveCircle } from "react-icons/io";
-import { env } from "../../../env";
+import { env } from "../../../config/env";
 import { EmployeeModel } from "../../pages/home-page";
 import {
   AddEmployeeButton,

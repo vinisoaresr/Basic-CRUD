@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useState, useEffect } from "react";
-import { env } from "../../env";
+import { env } from "../../config/env";
 import { EmployeeModel } from "../pages/home-page";
 
 export abstract class Method {

@@ -1,6 +1,6 @@
 import { BaseSyntheticEvent, SyntheticEvent, useEffect, useState } from "react";
 import { IoIosCloseCircleOutline } from "react-icons/io";
-import { env } from "../../../env";
+import { env } from "../../../config/env";
 import { EmployeeModel } from "../../pages/home-page";
 import Button from "./button/button";
 import { Content, Title, LabelError, Text, Overlay, Row } from "./employee-modal-styles";
