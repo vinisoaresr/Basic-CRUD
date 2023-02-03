@@ -29,6 +29,24 @@ describe('Employee Routes', () => {
       })
       .expect(200)
   })
+  test('Should return an employee on success edit', async () => {
+    const { insertedId } = await employeeCollection.insertOne({
+      firstName: 'valid_name',
+      lastName: 'valid_name',
+      email: 'valid_email@mail.com',
+      NISNumber: '12345'
+    })
+    await request(app)
+      .patch(`/api/employee/${insertedId}`)
+      .send({
+        id: insertedId,
+        firstName: 'other_name',
+        lastName: 'other_name',
+        email: 'valid_email@mail.com',
+        NISNumber: '12345'
+      })
+      .expect(200)
+  })
   test('Should return an employee by id on success', async () => {
     const listInsertedId = []
     listInsertedId.push(await employeeCollection.insertOne({

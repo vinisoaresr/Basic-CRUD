@@ -35,16 +35,19 @@ export class EmployeeMongoRepository implements AddEmployeeRepository, EditEmplo
 
   async edit (employeeData: EditEmployeeModel): Promise<EmployeeModel> {
     const employeeCollection = await MongoHelper.getCollection('employee')
-    let employee = await employeeCollection.findOne({ _id: new ObjectId(employeeData.id) })
-    await employeeCollection.findOneAndUpdate(
+    const document = await employeeCollection.updateOne(
       { _id: new ObjectId(employeeData.id) },
       {
-        firstName: employeeData.firstName,
-        lastName: employeeData.lastName,
-        email: employeeData.email,
-        NISNumber: employeeData.NISNumber
-      })
-    employee = await employeeCollection.findOne(employee._id)
+        $set:
+        {
+          firstName: employeeData.firstName,
+          lastName: employeeData.lastName,
+          email: employeeData.email,
+          NISNumber: employeeData.NISNumber
+        }
+      },
+      { upsert: true })
+    const employee = await employeeCollection.findOne({ _id: new ObjectId(employeeData.id) })
     return MongoHelper.mapToEntity(employee)
   }
 
