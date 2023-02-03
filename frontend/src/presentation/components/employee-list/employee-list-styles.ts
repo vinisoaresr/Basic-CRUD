@@ -5,7 +5,7 @@ export const Container = styled.section`
   height: 100%;
   width: 100%;
   max-width: 720px;
-  overflow: hidden;
+  overflow: scroll;
   padding: 15px;
   border-radius: 14px;
 `;

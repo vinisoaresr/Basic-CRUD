@@ -1,6 +1,5 @@
-import { BaseSyntheticEvent, SyntheticEvent } from "react";
-import { IoIosCreate, IoIosMedkit, IoIosRemoveCircle } from "react-icons/io";
-
+import { BaseSyntheticEvent } from "react";
+import { IoIosCreate, IoIosRemoveCircle } from "react-icons/io";
 import { EmployeeModel } from "../../pages/home-page";
 import {
   AddEmployeeButton,
