@@ -1,5 +1,5 @@
 # Build Stage
-FROM node:latest as build
+FROM node:18-alpine as build
 WORKDIR /app
 ENV NODE_OPTIONS=--max_old_space_size=4096
 # Resolve dependencies
@@ -13,7 +13,7 @@ RUN npm run build
 
 # Final Stage
 FROM nginx:latest
-COPY --from=build /app/build /var/www/employee/html
+COPY --from=build /app /var/www/employee/html
 COPY /infra/front-nginx.conf /etc/nginx/nginx.conf
 
 RUN chmod 755 -R /var/www/employee/html
