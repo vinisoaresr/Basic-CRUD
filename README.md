@@ -20,12 +20,12 @@ A Basic CRUD for Employee Registration
 
 ### Getting started with the backend server
 1. Move yourself to the backend folder: `cd backend`
-2. Create a custom `env.ts` file on `backend/src/main/config/` and insert MongoDB connection
+2. Create a custom `env.ts` file on `backend/src/main/config/` and insert your MongoDB connection (Default is `mongodb://localhost:27017`)
 3. Run `npm start` to start the dev server
 
 ### Getting started with the frontend app
 1. Move yourself to the frontend folder: `cd frontend`
-2. Create a `.env` file and add the path to API server with key `REACT_APP_BACKEND_URL` (TODO)
+2. Change in `.env` file on `frontend/src/` a `API_URL` (default is `http://localhost:3000`)
 2. Run `npm run dev` to start the web application
 
 ## TODO:
